@@ -1,0 +1,119 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+}
+
+/* 玻璃拟态卡片基础样式 */
+.glass-card {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 1.5rem;
+  box-shadow: 0 25px 50px -12px rgba(251, 146, 60, 0.25);
+}
+
+/* 果冻质感按钮 */
+.jelly-button {
+  transition: all 0.2s ease-out;
+}
+
+.jelly-button:hover {
+  box-shadow: 0 10px 15px -3px rgba(251, 146, 60, 0.3);
+}
+
+.jelly-button:active {
+  transform: scale(0.95);
+}
+
+/* 自定义滚动条 */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #fdba74, #f472b6);
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, #fb923c, #ec4899);
+}
+
+/* 渐变删除线 */
+.line-through {
+  position: relative;
+}
+
+.line-through::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(to right, #9ca3af, #6b7280);
+  transform: translateY(-50%);
+}
+
+/* 字体优化 */
+.font-serif {
+  font-family: 'Georgia', 'Times New Roman', serif;
+}
+
+/* 响应式优化 */
+@media (max-width: 768px) {
+  .glass-card {
+    padding: 1.5rem;
+  }
+}
+
+/* 自定义动画 */
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes gradient-shift-reverse {
+  0% { background-position: 100% 50%; }
+  50% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+@keyframes float {
+  0% { transform: translate(0px, 0px); }
+  50% { transform: translate(0px, -20px); }
+  100% { transform: translate(0px, 0px); }
+}
+
+@keyframes float-delay {
+  0% { transform: translate(0px, 0px) scale(1); }
+  33% { transform: translate(30px, -30px) scale(1.05); }
+  66% { transform: translate(-20px, 20px) scale(0.95); }
+}
+
+.animate-gradient-shift {
+  background-size: 400% 400%;
+  animation: gradient-shift 15s ease infinite;
+}
+
+.animate-gradient-shift-reverse {
+  background-size: 400% 400%;
+  animation: gradient-shift-reverse 15s ease infinite;
+}
+
+.animate-float {
+  animation: float 10s ease-in-out infinite;
+}
+
+.animate-float-delay {
+  animation: float-delay 12s ease-in-out 2s infinite;
+}
