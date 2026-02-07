@@ -117,3 +117,113 @@ body {
 .animate-float-delay {
   animation: float-delay 12s ease-in-out 2s infinite;
 }
+
+.animate-pulse-slow {
+  animation: pulse-slow 8s ease-in-out infinite;
+}
+
+@keyframes pulse-slow {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+  50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; }
+}
+
+@keyframes particle {
+  0% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
+}
+
+.animate-particle {
+  animation: particle 15s linear infinite;
+}
+
+/* 深色模式样式 */
+.dark body,
+body.dark {
+  background-color: #1a1a2e;
+  color: #e2e8f0;
+}
+
+.dark .glass-card {
+  background: rgba(30, 30, 50, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.dark .glass-card h2,
+.dark .glass-card h3,
+.dark .glass-card h1 {
+  color: #f8fafc;
+}
+
+.dark .glass-card p {
+  color: #cbd5e1;
+}
+
+.dark .glass-card span:not(.text-orange-600):not(.text-green-600):not(.text-blue-600):not(.text-purple-600):not(.text-red-500) {
+  color: #cbd5e1;
+}
+
+.dark input,
+.dark select {
+  background: rgba(255, 255, 255, 0.1);
+  color: #f8fafc;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.dark input::placeholder {
+  color: #94a3b8;
+}
+
+.dark .bg-white\/30,
+.dark .bg-white\/40,
+.dark .bg-white\/50,
+.dark .bg-white\/60 {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.dark .hover\:bg-white\/30:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+.dark .hover\:bg-white\/60:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.dark .text-gray-500,
+.dark .text-gray-600,
+.dark .text-gray-700,
+.dark .text-gray-800 {
+  color: #94a3b8;
+}
+
+.dark .bg-orange-200\/30,
+.dark .bg-blue-200\/30,
+.dark .bg-purple-200\/20 {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.dark .text-orange-600 {
+  color: #fb923c;
+}
+
+.dark .text-red-500 {
+  color: #f87171;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #64748b, #475569);
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, #475569, #334155);
+}
+
+/* 粒子动画 */
+@keyframes particle {
+  0% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 0.5; }
+  90% { opacity: 0.5; }
+  100% { transform: translateY(-100vh) translateX(30px); opacity: 0; }
+}
