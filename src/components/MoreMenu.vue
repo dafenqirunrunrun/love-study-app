@@ -111,7 +111,7 @@ const close = () => {
 
 .more-icon {
   font-size: 20px;
-  color: #6b7280;
+  color: var(--text-muted);
   font-weight: bold;
 }
 
@@ -172,7 +172,7 @@ const close = () => {
   border: none;
   background: rgba(255, 255, 255, 0.1);
   font-size: 24px;
-  color: #6b7280;
+  color: var(--text-muted);
   cursor: pointer;
   transition: all 0.3s;
 }
@@ -215,17 +215,17 @@ const close = () => {
 
 .menu-name {
   font-weight: 600;
-  color: #fff;
+  color: var(--text-primary);
   font-size: 15px;
 }
 
 .menu-desc {
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--text-muted);
 }
 
 .menu-arrow {
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--text-muted);
   font-size: 16px;
 }
 
@@ -256,12 +256,12 @@ const close = () => {
 
 .user-name {
   font-weight: 600;
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .user-status {
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--text-muted);
 }
 
 /* 动画 */
@@ -289,5 +289,40 @@ const close = () => {
   .drawer-menu {
     width: 85vw;
   }
+}
+
+/* ===== 深色模式适配 ===== */
+.dark .close-btn {
+  background: rgba(255, 255, 255, 0.15);
+  color: #94a3b8;
+}
+
+.dark .close-btn:hover {
+  background: rgba(239, 68, 68, 0.3);
+  color: #ef4444;
+}
+
+.dark .menu-item:hover {
+  background: rgba(249, 115, 22, 0.15);
+}
+
+.dark .more-btn {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.dark .more-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.dark .user-section {
+  background: rgba(249, 115, 22, 0.1);
+}
+
+.dark .drawer-header {
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark .user-section {
+  border-top-color: rgba(255, 255, 255, 0.1);
 }
 </style>

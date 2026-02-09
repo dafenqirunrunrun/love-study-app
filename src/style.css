@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 /* ===========================================
-   🎨 精美配色系统 & CSS变量
-   =========================================== */
+    🎨 精美配色系统 & CSS变量
+    =========================================== */
 :root {
   /* 主色调 - 浪漫暖橙色系 */
   --color-primary: #f97316;
@@ -33,9 +33,15 @@
   --transition-fast: 0.15s ease;
   --transition-normal: 0.3s ease;
   --transition-slow: 0.5s ease;
+  
+  /* ===== 字体颜色系统 ===== */
+  /* 浅色模式下：使用深色文字确保对比度 */
+  --text-primary: #1f2937;      /* 主要文字 - 深灰 */
+  --text-secondary: #4b5563;     /* 次要文字 - 中灰 */
+  --text-muted: #6b7280;         /* 辅助文字 - 浅灰 */
+  --text-inverse: #f9fafb;       /* 浅色背景上的文字 */
 }
 
-/* 深色模式变量 */
 .dark {
   --glass-bg: rgba(30, 30, 50, 0.8);
   --glass-border: rgba(255, 255, 255, 0.15);
@@ -43,6 +49,40 @@
   --color-primary: #fb923c;
   --color-primary-light: #fdba74;
   --color-pink: #f9a8d4;
+  
+  /* 深色模式下：使用浅色文字确保对比度 */
+  --text-primary: #f1f5f9;      /* 主要文字 - 接近白色 */
+  --text-secondary: #cbd5e1;      /* 次要文字 - 浅灰 */
+  --text-muted: #94a3b8;         /* 辅助文字 - 中灰 */
+  --text-inverse: #1f2937;       /* 深色背景上的文字 */
+}
+
+/* ===== 通用文字颜色类 ===== */
+/* 使用这些类确保在浅色和深色模式下都清晰可见 */
+.text-theme-primary {
+  color: var(--text-primary);
+}
+
+.text-theme-secondary {
+  color: var(--text-secondary);
+}
+
+.text-theme-muted {
+  color: var(--text-muted);
+}
+
+/* 玻璃拟态背景上的文字颜色 */
+.glass-card .text-theme,
+.glass-card span:not(.text-orange-600):not(.text-green-600):not(.text-blue-600):not(.text-purple-600):not(.text-red-500):not(.text-yellow-500):not(.text-white):not([class*="text-"] .text-gray-500) {
+  color: var(--text-primary);
+}
+
+.glass-card .text-theme-secondary {
+  color: var(--text-secondary);
+}
+
+.glass-card .text-theme-muted {
+  color: var(--text-muted);
 }
 
 body {
