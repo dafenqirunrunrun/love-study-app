@@ -32,6 +32,12 @@ const routes = [
     meta: { title: '数据统计' }
   },
   {
+    path: '/points',
+    name: 'Points',
+    component: () => import('../views/PointsCenter.vue'),
+    meta: { title: '积分中心' }
+  },
+  {
     path: '/rewards',
     name: 'Rewards',
     component: () => import('../views/Rewards.vue'),
@@ -48,6 +54,24 @@ const routes = [
     name: 'Achievements',
     component: () => import('../views/Achievements.vue'),
     meta: { title: '成就徽章' }
+  },
+  {
+    path: '/plan',
+    name: 'LearningPlan',
+    component: () => import('../views/LearningPlanManager.vue'),
+    meta: { title: 'AI学习计划' }
+  },
+  {
+    path: '/calendar',
+    name: 'Calendar',
+    component: () => import('../views/Calendar.vue'),
+    meta: { title: '日历' }
+  },
+  {
+    path: '/settings',
+    name: 'Settings',
+    component: () => import('../views/Settings.vue'),
+    meta: { title: '设置' }
   }
 ]
 
