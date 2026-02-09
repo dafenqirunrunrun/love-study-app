@@ -6,7 +6,7 @@ const router = useRouter()
 
 // 倒计时逻辑 - 从设置中读取
 const countdownSettings = ref({
-  eventName: '考研初试',
+  eventName: '学习目标',
   targetDate: '2025-12-21'
 })
 

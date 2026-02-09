@@ -20,7 +20,7 @@
               <span class="setting-icon">📌</span>
               <div class="setting-text">
                 <span class="setting-name">目标名称</span>
-                <span class="setting-desc">如：考研初试、面试、答辩等</span>
+                <span class="setting-desc">如：考试、面试、答辩等</span>
               </div>
             </div>
             <input
@@ -253,7 +253,7 @@
             <div class="setting-info">
               <span class="setting-icon">📚</span>
               <div class="setting-text">
-                <span class="setting-name">考研伴侣</span>
+                <span class="setting-name">学习伴侣</span>
                 <span class="setting-desc">版本 1.0.0</span>
               </div>
             </div>
@@ -271,8 +271,8 @@ const isDarkMode = ref(false)
 
 // 倒计时设置
 const countdownSettings = ref({
-  eventName: '考研初试',
-  targetDate: '2025-12-21'
+  eventName: '学习目标',
+  targetDate: '2026-12-21'
 })
 
 // 番茄钟设置
@@ -368,7 +368,7 @@ const exportData = () => {
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
   a.href = url
-  a.download = `考研伴侣备份_${new Date().toISOString().split('T')[0]}.json`
+    a.download = `学习伴侣备份_${new Date().toISOString().split('T')[0]}.json`
   a.click()
   URL.revokeObjectURL(url)
 }

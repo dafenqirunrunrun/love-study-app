@@ -23,7 +23,7 @@
         <router-link to="/" class="flex items-center gap-3 group">
           <span class="text-3xl filter-drop-shadow-orange animate-bounce-soft">📚</span>
           <span class="text-2xl font-bold text-rainbow group-hover:text-glow transition-all duration-300">
-            考研伴侣
+            学习伴侣
           </span>
         </router-link>
         

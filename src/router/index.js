@@ -5,7 +5,7 @@ const routes = [
     path: '/',
     name: 'Home',
     component: () => import('../views/Home.vue'),
-    meta: { title: '考研伴侣 - 首页' }
+    meta: { title: '学习伴侣 - 首页' }
   },
   {
     path: '/tasks',

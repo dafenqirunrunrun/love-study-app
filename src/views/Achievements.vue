@@ -253,6 +253,30 @@ const badges = ref([
     category: 'task',
     progress: computed(() => ({ current: tasks.value.filter(t => t.completed).length, target: 100, percent: Math.min(100, tasks.value.filter(t => t.completed).length) }))
   },
+  { 
+    id: 'task_200', 
+    name: '任务狂人', 
+    icon: '🔥', 
+    description: '完成200个任务',
+    category: 'task',
+    progress: computed(() => ({ current: tasks.value.filter(t => t.completed).length, target: 200, percent: Math.min(100, tasks.value.filter(t => t.completed).length / 2) }))
+  },
+  { 
+    id: 'task_500', 
+    name: '任务传奇', 
+    icon: '🏆', 
+    description: '完成500个任务',
+    category: 'task',
+    progress: computed(() => ({ current: tasks.value.filter(t => t.completed).length, target: 500, percent: Math.min(100, tasks.value.filter(t => t.completed).length / 5) }))
+  },
+  { 
+    id: 'task_1000', 
+    name: '千锤百炼', 
+    icon: '💎', 
+    description: '完成1000个任务',
+    category: 'task',
+    progress: computed(() => ({ current: tasks.value.filter(t => t.completed).length, target: 1000, percent: Math.min(100, tasks.value.filter(t => t.completed).length / 10) }))
+  },
   // 专注成就
   { 
     id: 'focus_1', 
@@ -298,6 +322,61 @@ const badges = ref([
       return { current: Math.round(minutes / 60), target: 10, percent: Math.min(100, (minutes / 60) * 10) }
     })
   },
+  { 
+    id: 'focus_100', 
+    name: '专注达人', 
+    icon: '🎯', 
+    description: '完成100次番茄钟',
+    category: 'focus',
+    progress: computed(() => {
+      const sessions = Object.values(focusHistory.value).reduce((sum, day) => sum + (day.sessions || 0), 0)
+      return { current: sessions, target: 100, percent: Math.min(100, sessions) }
+    })
+  },
+  { 
+    id: 'focus_200', 
+    name: '专注大师', 
+    icon: '🌟', 
+    description: '完成200次番茄钟',
+    category: 'focus',
+    progress: computed(() => {
+      const sessions = Object.values(focusHistory.value).reduce((sum, day) => sum + (day.sessions || 0), 0)
+      return { current: sessions, target: 200, percent: Math.min(100, sessions / 2) }
+    })
+  },
+  { 
+    id: 'hours_50', 
+    name: '五十小时', 
+    icon: '⌛', 
+    description: '累计专注50小时',
+    category: 'focus',
+    progress: computed(() => {
+      const minutes = Object.values(focusHistory.value).reduce((sum, day) => sum + (day.minutes || 0), 0)
+      return { current: Math.round(minutes / 60), target: 50, percent: Math.min(100, (minutes / 60) * 2) }
+    })
+  },
+  { 
+    id: 'hours_100', 
+    name: '百小时', 
+    icon: '💪', 
+    description: '累计专注100小时',
+    category: 'focus',
+    progress: computed(() => {
+      const minutes = Object.values(focusHistory.value).reduce((sum, day) => sum + (day.minutes || 0), 0)
+      return { current: Math.round(minutes / 60), target: 100, percent: Math.min(100, (minutes / 60)) }
+    })
+  },
+  { 
+    id: 'hours_500', 
+    name: '五百小时', 
+    icon: '🏅', 
+    description: '累计专注500小时',
+    category: 'focus',
+    progress: computed(() => {
+      const minutes = Object.values(focusHistory.value).reduce((sum, day) => sum + (day.minutes || 0), 0)
+      return { current: Math.round(minutes / 60), target: 500, percent: Math.min(100, (minutes / 60) / 5) }
+    })
+  },
   // 打卡成就
   { 
     id: 'checkin_3', 
@@ -323,6 +402,38 @@ const badges = ref([
     category: 'checkin',
     progress: computed(() => ({ current: currentStreak.value, target: 30, percent: Math.min(100, (currentStreak.value / 30) * 100) }))
   },
+  { 
+    id: 'checkin_14', 
+    name: '两周坚持', 
+    icon: '📆', 
+    description: '连续打卡14天',
+    category: 'checkin',
+    progress: computed(() => ({ current: currentStreak.value, target: 14, percent: Math.min(100, (currentStreak.value / 14) * 100) }))
+  },
+  { 
+    id: 'checkin_60', 
+    name: '双月坚持', 
+    icon: '🏃', 
+    description: '连续打卡60天',
+    category: 'checkin',
+    progress: computed(() => ({ current: currentStreak.value, target: 60, percent: Math.min(100, (currentStreak.value / 60) * 100) }))
+  },
+  { 
+    id: 'checkin_100', 
+    name: '百日坚持', 
+    icon: '🎖️', 
+    description: '连续打卡100天',
+    category: 'checkin',
+    progress: computed(() => ({ current: currentStreak.value, target: 100, percent: Math.min(100, (currentStreak.value / 100) * 100) }))
+  },
+  { 
+    id: 'checkin_365', 
+    name: '全年无休', 
+    icon: '🌟', 
+    description: '连续打卡365天',
+    category: 'checkin',
+    progress: computed(() => ({ current: currentStreak.value, target: 365, percent: Math.min(100, (currentStreak.value / 365) * 100) }))
+  },
   // 积分成就
   { 
     id: 'points_100', 
@@ -347,6 +458,143 @@ const badges = ref([
     description: '获得1000积分',
     category: 'points',
     progress: computed(() => ({ current: totalPoints.value, target: 1000, percent: Math.min(100, totalPoints.value / 10) }))
+  },
+  { 
+    id: 'points_2000', 
+    name: '两千分王', 
+    icon: '👑', 
+    description: '获得2000积分',
+    category: 'points',
+    progress: computed(() => ({ current: totalPoints.value, target: 2000, percent: Math.min(100, totalPoints.value / 20) }))
+  },
+  { 
+    id: 'points_5000', 
+    name: '五千分帝', 
+    icon: '💎', 
+    description: '获得5000积分',
+    category: 'points',
+    progress: computed(() => ({ current: totalPoints.value, target: 5000, percent: Math.min(100, totalPoints.value / 50) }))
+  },
+  { 
+    id: 'points_10000', 
+    name: '万分传奇', 
+    icon: '🏆', 
+    description: '获得10000积分',
+    category: 'points',
+    progress: computed(() => ({ current: totalPoints.value, target: 10000, percent: Math.min(100, totalPoints.value / 100) }))
+  },
+  // 心得成就
+  { 
+    id: 'journal_1', 
+    name: '心得初体验', 
+    icon: '✍️', 
+    description: '撰写第一篇学习心得',
+    category: 'journal',
+    progress: computed(() => {
+      const journals = JSON.parse(localStorage.getItem('dailyJournal') || '[]')
+      return { current: journals.length, target: 1, percent: Math.min(100, journals.length * 100) }
+    })
+  },
+  { 
+    id: 'journal_10', 
+    name: '十篇心得', 
+    icon: '📝', 
+    description: '撰写10篇学习心得',
+    category: 'journal',
+    progress: computed(() => {
+      const journals = JSON.parse(localStorage.getItem('dailyJournal') || '[]')
+      return { current: journals.length, target: 10, percent: Math.min(100, journals.length * 10) }
+    })
+  },
+  { 
+    id: 'journal_30', 
+    name: '三十篇心得', 
+    icon: '📚', 
+    description: '撰写30篇学习心得',
+    category: 'journal',
+    progress: computed(() => {
+      const journals = JSON.parse(localStorage.getItem('dailyJournal') || '[]')
+      return { current: journals.length, target: 30, percent: Math.min(100, journals.length * 3.33) }
+    })
+  },
+  // 里程碑成就
+  { 
+    id: 'total_days_7', 
+    name: '第一周', 
+    icon: '🗓️', 
+    description: '累计学习7天',
+    category: 'milestone',
+    progress: computed(() => {
+      const stats = JSON.parse(localStorage.getItem('learningStats') || '{"totalDays":0}')
+      return { current: stats.totalDays || 0, target: 7, percent: Math.min(100, ((stats.totalDays || 0) / 7) * 100) }
+    })
+  },
+  { 
+    id: 'total_days_30', 
+    name: '月度学习者', 
+    icon: '📅', 
+    description: '累计学习30天',
+    category: 'milestone',
+    progress: computed(() => {
+      const stats = JSON.parse(localStorage.getItem('learningStats') || '{"totalDays":0}')
+      return { current: stats.totalDays || 0, target: 30, percent: Math.min(100, ((stats.totalDays || 0) / 30) * 100) }
+    })
+  },
+  { 
+    id: 'total_days_100', 
+    name: '百日学习', 
+    icon: '💯', 
+    description: '累计学习100天',
+    category: 'milestone',
+    progress: computed(() => {
+      const stats = JSON.parse(localStorage.getItem('learningStats') || '{"totalDays":0}')
+      return { current: stats.totalDays || 0, target: 100, percent: Math.min(100, ((stats.totalDays || 0) / 100) * 100) }
+    })
+  },
+  { 
+    id: 'total_days_365', 
+    name: '全年学习', 
+    icon: '🎯', 
+    description: '累计学习365天',
+    category: 'milestone',
+    progress: computed(() => {
+      const stats = JSON.parse(localStorage.getItem('learningStats') || '{"totalDays":0}')
+      return { current: stats.totalDays || 0, target: 365, percent: Math.min(100, ((stats.totalDays || 0) / 365) * 100) }
+    })
+  },
+  // 习惯完美成就
+  { 
+    id: 'habit_perfect_week', 
+    name: '完美一周', 
+    icon: '✨', 
+    description: '一周内每天完成所有习惯',
+    category: 'habit',
+    progress: computed(() => ({ current: perfectWeekCount.value, target: 1, percent: Math.min(100, (perfectWeekCount.value || 0) * 100) }))
+  },
+  { 
+    id: 'habit_perfect_month', 
+    name: '完美一月', 
+    icon: '🌈', 
+    description: '一月内每天完成所有习惯',
+    category: 'habit',
+    progress: computed(() => ({ current: perfectMonthCount.value, target: 1, percent: Math.min(100, (perfectMonthCount.value || 0) * 100) }))
+  },
+  // 特殊成就
+  { 
+    id: 'early_bird', 
+    name: '早起鸟儿', 
+    icon: '🐦', 
+    description: '早上6点前完成首个任务',
+    category: 'special',
+    progress: computed(() => ({ current: earlyBirdCount.value, target: 1, percent: Math.min(100, (earlyBirdCount.value || 0) * 100) }))
+  },
+  { 
+    id: 'night_owl', 
+    name: '夜猫子', 
+    icon: '🦉', 
+    description: '晚上11点后完成首个任务',
+    category: 'special',
+    progress: computed(() => ({ current: nightOwlCount.value, target: 1, percent: Math.min(100, (nightOwlCount.value || 0) * 100) }))
   },
   { 
     id: 'all_rounder', 
@@ -404,6 +652,74 @@ const totalPoints = computed(() => {
   return pointsHistory.reduce((sum, r) => sum + r.points, 0)
 })
 
+// 新增成就的计算属性
+const perfectWeekCount = computed(() => {
+  try {
+    const habits = JSON.parse(localStorage.getItem('habits') || '[]')
+    const checkins = JSON.parse(localStorage.getItem('checkinHistory') || '{}')
+    let count = 0
+    for (let week = 0; week < 52; week++) {
+      let perfect = true
+      for (let day = 0; day < 7; day++) {
+        const date = new Date()
+        date.setDate(date.getDate() - (week * 7 + day))
+        const dateStr = date.toDateString()
+        if (!checkins[dateStr] || checkins[dateStr].total < habits.length) {
+          perfect = false
+          break
+        }
+      }
+      if (perfect && habits.length > 0) count++
+    }
+    return count
+  } catch { return 0 }
+})
+
+const perfectMonthCount = computed(() => {
+  try {
+    const habits = JSON.parse(localStorage.getItem('habits') || '[]')
+    const checkins = JSON.parse(localStorage.getItem('checkinHistory') || '{}')
+    let count = 0
+    for (let month = 0; month < 12; month++) {
+      const daysInMonth = new Date(new Date().getFullYear(), new Date().getMonth() - month, 0).getDate()
+      let perfect = true
+      for (let day = 0; day < daysInMonth; day++) {
+        const date = new Date()
+        date.setDate(date.getDate() - ((month * 30) + day))
+        const dateStr = date.toDateString()
+        if (!checkins[dateStr] || checkins[dateStr].total < habits.length) {
+          perfect = false
+          break
+        }
+      }
+      if (perfect && habits.length > 0) count++
+    }
+    return count
+  } catch { return 0 }
+})
+
+const earlyBirdCount = computed(() => {
+  try {
+    const tasks = JSON.parse(localStorage.getItem('tasks') || '[]')
+    return tasks.filter(t => {
+      if (!t.completed || !t.completedAt) return false
+      const hour = new Date(t.completedAt).getHours()
+      return hour < 6
+    }).length
+  } catch { return 0 }
+})
+
+const nightOwlCount = computed(() => {
+  try {
+    const tasks = JSON.parse(localStorage.getItem('tasks') || '[]')
+    return tasks.filter(t => {
+      if (!t.completed || !t.completedAt) return false
+      const hour = new Date(t.completedAt).getHours()
+      return hour >= 23
+    }).length
+  } catch { return 0 }
+})
+
 const unlockedCount = computed(() => badges.value.filter(b => isUnlocked(b.id)).length)
 const remainingCount = computed(() => badges.value.length - unlockedCount.value)
 
@@ -429,16 +745,63 @@ const isUnlocked = (badgeId) => {
       case 'task_10': return completedTasksCount >= 10
       case 'task_50': return completedTasksCount >= 50
       case 'task_100': return completedTasksCount >= 100
+      case 'task_200': return completedTasksCount >= 200
+      case 'task_500': return completedTasksCount >= 500
+      case 'task_1000': return completedTasksCount >= 1000
       case 'focus_1': return totalSessions >= 1
       case 'focus_10': return totalSessions >= 10
       case 'focus_50': return totalSessions >= 50
+      case 'focus_100': return totalSessions >= 100
+      case 'focus_200': return totalSessions >= 200
       case 'hours_10': return totalMinutes >= 600
+      case 'hours_50': return totalMinutes >= 3000
+      case 'hours_100': return totalMinutes >= 6000
+      case 'hours_500': return totalMinutes >= 30000
       case 'checkin_3': return currentStreak.value >= 3
       case 'checkin_7': return currentStreak.value >= 7
+      case 'checkin_14': return currentStreak.value >= 14
       case 'checkin_30': return currentStreak.value >= 30
+      case 'checkin_60': return currentStreak.value >= 60
+      case 'checkin_100': return currentStreak.value >= 100
+      case 'checkin_365': return currentStreak.value >= 365
       case 'points_100': return totalPoints.value >= 100
       case 'points_500': return totalPoints.value >= 500
       case 'points_1000': return totalPoints.value >= 1000
+      case 'points_2000': return totalPoints.value >= 2000
+      case 'points_5000': return totalPoints.value >= 5000
+      case 'points_10000': return totalPoints.value >= 10000
+      case 'journal_1': {
+        const journals = JSON.parse(localStorage.getItem('dailyJournal') || '[]')
+        return journals.length >= 1
+      }
+      case 'journal_10': {
+        const journals = JSON.parse(localStorage.getItem('dailyJournal') || '[]')
+        return journals.length >= 10
+      }
+      case 'journal_30': {
+        const journals = JSON.parse(localStorage.getItem('dailyJournal') || '[]')
+        return journals.length >= 30
+      }
+      case 'total_days_7': {
+        const stats = JSON.parse(localStorage.getItem('learningStats') || '{"totalDays":0}')
+        return (stats.totalDays || 0) >= 7
+      }
+      case 'total_days_30': {
+        const stats = JSON.parse(localStorage.getItem('learningStats') || '{"totalDays":0}')
+        return (stats.totalDays || 0) >= 30
+      }
+      case 'total_days_100': {
+        const stats = JSON.parse(localStorage.getItem('learningStats') || '{"totalDays":0}')
+        return (stats.totalDays || 0) >= 100
+      }
+      case 'total_days_365': {
+        const stats = JSON.parse(localStorage.getItem('learningStats') || '{"totalDays":0}')
+        return (stats.totalDays || 0) >= 365
+      }
+      case 'habit_perfect_week': return perfectWeekCount.value >= 1
+      case 'habit_perfect_month': return perfectMonthCount.value >= 1
+      case 'early_bird': return earlyBirdCount.value >= 1
+      case 'night_owl': return nightOwlCount.value >= 1
       case 'all_rounder': return unlockedCount.value >= badges.value.length
       default: return false
     }

@@ -46,7 +46,7 @@
         <div class="user-section">
           <div class="user-avatar">📚</div>
           <div class="user-info">
-            <span class="user-name">考研伴侣</span>
+            <span class="user-name">学习伴侣</span>
             <span class="user-status">陪你一起上岸</span>
           </div>
         </div>
