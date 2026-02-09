@@ -6,40 +6,153 @@
     🎨 精美配色系统 & CSS变量
     =========================================== */
 :root {
-  /* 主色调 - 浪漫暖橙色系 */
+  /* ═══════════════════════════════════════════
+     🎨 基础颜色系统 (Light Mode)
+     ═══════════════════════════════════════════ */
   --color-primary: #f97316;
   --color-primary-light: #fb923c;
   --color-primary-dark: #ea580c;
+  --color-primary-glow: rgba(249, 115, 22, 0.4);
   
-  /* 辅助色 */
   --color-pink: #f472b6;
   --color-pink-light: #f9a8d4;
-  --color-rose: #fb7185;
+  --color-pink-glow: rgba(244, 114, 182, 0.4);
   
-  /* 渐变色 */
+  --color-rose: #fb7185;
+  --color-cyan: #22d3ee;
+  --color-purple: #a78bfa;
+  --color-green: #34d399;
+  --color-yellow: #fcd34d;
+  
+  /* ═══════════════════════════════════════════
+     🌈 渐变色系统
+     ═══════════════════════════════════════════ */
   --gradient-primary: linear-gradient(135deg, #f97316 0%, #f472b6 50%, #fb7185 100%);
   --gradient-secondary: linear-gradient(135deg, #0ea5e9 0%, #8b5cf6 100%);
   --gradient-sunset: linear-gradient(135deg, #fcd34d 0%, #f97316 50%, #ef4444 100%);
   --gradient-ocean: linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #8b5cf6 100%);
   --gradient-forest: linear-gradient(135deg, #22c55e 0%, #10b981 50%, #14b8a6 100%);
+  --gradient-aurora: linear-gradient(135deg, #06b6d4 0%, #a78bfa 50%, #f472b6 100%);
   
-  /* 玻璃拟态 */
+  /* ═══════════════════════════════════════════
+     🥛 玻璃拟态系统 (Light Mode)
+     ═══════════════════════════════════════════ */
   --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-bg-secondary: rgba(255, 255, 255, 0.5);
+  --glass-bg-tertiary: rgba(255, 255, 255, 0.3);
   --glass-border: rgba(255, 255, 255, 0.5);
+  --glass-border-secondary: rgba(255, 255, 255, 0.3);
   --glass-shadow: 0 25px 50px -12px rgba(251, 146, 60, 0.25);
+  --glass-shadow-subtle: 0 10px 40px -10px rgba(0, 0, 0, 0.1);
   --glass-blur: 20px;
   
-  /* 动画时长 */
+  /* ═══════════════════════════════════════════
+     ⏱️ 动画时长系统
+     ═══════════════════════════════════════════ */
   --transition-fast: 0.15s ease;
   --transition-normal: 0.3s ease;
   --transition-slow: 0.5s ease;
+  --transition-bounce: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   
-  /* ===== 字体颜色系统 ===== */
-  /* 浅色模式下：使用深色文字确保对比度 */
-  --text-primary: #1f2937;      /* 主要文字 - 深灰 */
-  --text-secondary: #4b5563;     /* 次要文字 - 中灰 */
+  /* ═══════════════════════════════════════════
+     📝 字体颜色系统 - Light Mode
+     ═══════════════════════════════════════════ */
+  --text-primary: #1f2937;        /* 主要文字 - 深灰 */
+  --text-secondary: #4b5563;      /* 次要文字 - 中灰 */
   --text-muted: #6b7280;         /* 辅助文字 - 浅灰 */
   --text-inverse: #f9fafb;       /* 浅色背景上的文字 */
+  
+  /* ═══════════════════════════════════════════
+     🎭 层级背景系统 - Light Mode
+     ═══════════════════════════════════════════ */
+  --bg-primary: linear-gradient(-45deg, #ffecd2, #fcb69f, #ffecd2, #feada6, #f5efef, #a7bed3);
+  --bg-overlay: rgba(255, 255, 255, 0.6);
+  --bg-scrim: rgba(0, 0, 0, 0.3);
+  
+  /* ═══════════════════════════════════════════
+     🔘 交互状态颜色
+     ═══════════════════════════════════════════ */
+  --interactive-hover: rgba(249, 115, 22, 0.1);
+  --interactive-active: rgba(249, 115, 22, 0.2);
+  --interactive-focus: rgba(249, 115, 22, 0.3);
+  
+  /* ═══════════════════════════════════════════
+     ✅ 成功/警告/错误颜色
+     ═══════════════════════════════════════════ */
+  --color-success: #22c55e;
+  --color-warning: #f97316;
+  --color-error: #ef4444;
+  --color-info: #3b82f6;
+}
+
+/* ═══════════════════════════════════════════
+   🌙 Dark Mode 2.0 - 增强版
+   ═══════════════════════════════════════════ */
+.dark {
+  /* ═══════════════════════════════════════════
+     🎨 基础颜色系统 (Dark Mode)
+     ═══════════════════════════════════════════ */
+  --color-primary: #fb923c;
+  --color-primary-light: #fdba74;
+  --color-primary-dark: #f97316;
+  --color-primary-glow: rgba(251, 146, 60, 0.6);
+  
+  --color-pink: #f9a8d4;
+  --color-pink-light: #fbcfe8;
+  --color-pink-glow: rgba(249, 168, 212, 0.6);
+  
+  --color-rose: #fb7185;
+  --color-cyan: #22d3ee;
+  --color-purple: #a78bfa;
+  --color-green: #34d399;
+  --color-yellow: #fcd34d;
+  
+  /* ═══════════════════════════════════════════
+     🌈 渐变色系统 (Dark Mode)
+     ═══════════════════════════════════════════ */
+  --gradient-primary: linear-gradient(135deg, #fb923c 0%, #f9a8d4 50%, #fb7185 100%);
+  
+  /* ═══════════════════════════════════════════
+     🥛 玻璃拟态系统 (Dark Mode) - 增强版
+     ═══════════════════════════════════════════ */
+  --glass-bg: rgba(30, 30, 50, 0.85);
+  --glass-bg-secondary: rgba(40, 40, 70, 0.8);
+  --glass-bg-tertiary: rgba(60, 60, 90, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --glass-border-secondary: rgba(255, 255, 255, 0.08);
+  --glass-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+  --glass-shadow-subtle: 0 10px 40px -10px rgba(0, 0, 0, 0.4);
+  --glass-blur: 24px;
+  
+  /* ═══════════════════════════════════════════
+     📝 字体颜色系统 - Dark Mode - 增强对比度
+     ═══════════════════════════════════════════ */
+  --text-primary: #f1f5f9;         /* 主要文字 - 接近白色 */
+  --text-secondary: #cbd5e1;      /* 次要文字 - 浅灰蓝 */
+  --text-muted: #94a3b8;          /* 辅助文字 - 中灰蓝 */
+  --text-inverse: #1f2937;        /* 深色背景上的文字 */
+  
+  /* ═══════════════════════════════════════════
+     🎭 层级背景系统 - Dark Mode
+     ═══════════════════════════════════════════ */
+  --bg-primary: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%);
+  --bg-overlay: rgba(30, 30, 60, 0.7);
+  --bg-scrim: rgba(0, 0, 0, 0.5);
+  
+  /* ═══════════════════════════════════════════
+     🔘 交互状态颜色 (Dark Mode)
+     ═══════════════════════════════════════════ */
+  --interactive-hover: rgba(251, 146, 60, 0.15);
+  --interactive-active: rgba(251, 146, 60, 0.25);
+  --interactive-focus: rgba(251, 146, 60, 0.4);
+  
+  /* ═══════════════════════════════════════════
+     ✅ 成功/警告/错误颜色 (Dark Mode)
+     ═══════════════════════════════════════════ */
+  --color-success: #4ade80;
+  --color-warning: #fbbf24;
+  --color-error: #f87171;
+  --color-info: #60a5fa;
 }
 
 .dark {
@@ -376,9 +489,11 @@ input[type="checkbox"]:hover {
   background: linear-gradient(180deg, #475569, #334155);
 }
 
-/* ===========================================
-   💫 动画系统
-   =========================================== */
+/* ═══════════════════════════════════════════
+   💫 动画系统 - 增强版
+   ═══════════════════════════════════════════ */
+
+/* 渐变背景动画 */
 @keyframes gradient-shift {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -391,6 +506,7 @@ input[type="checkbox"]:hover {
   100% { background-position: 100% 50%; }
 }
 
+/* 浮动动画 */
 @keyframes float {
   0%, 100% { transform: translate(0px, 0px); }
   25% { transform: translate(5px, -10px); }
@@ -406,6 +522,7 @@ input[type="checkbox"]:hover {
   100% { transform: translate(0px, 0px) scale(1); }
 }
 
+/* 脉冲动画 */
 @keyframes pulse-soft {
   0%, 100% { 
     transform: scale(1);
@@ -430,6 +547,7 @@ input[type="checkbox"]:hover {
   }
 }
 
+/* 旋转动画 */
 @keyframes spin-slow {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
@@ -440,6 +558,7 @@ input[type="checkbox"]:hover {
   to { transform: rotate(0deg); }
 }
 
+/* 淡入动画 */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -460,6 +579,11 @@ input[type="checkbox"]:hover {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes scaleIn {
@@ -495,6 +619,7 @@ input[type="checkbox"]:hover {
   }
 }
 
+/* 弹跳动画 */
 @keyframes bounce-soft {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-10px); }
@@ -505,6 +630,25 @@ input[type="checkbox"]:hover {
   50% { transform: scale(1.05); }
 }
 
+@keyframes bounce-in {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* 闪烁动画 */
 @keyframes shimmer {
   0% {
     background-position: -200% 0;
@@ -523,7 +667,146 @@ input[type="checkbox"]:hover {
   }
 }
 
-/* 动画类 */
+/* ═══════════════════════════════════════════
+   🎬 新增微交互动画
+   ═══════════════════════════════════════════ */
+
+/* 缩放弹跳 */
+@keyframes scale-bounce {
+  0% { transform: scale(1); }
+  25% { transform: scale(0.95); }
+  50% { transform: scale(1.05); }
+  75% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+/* 心跳动画 */
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  14% { transform: scale(1.1); }
+  28% { transform: scale(1); }
+  42% { transform: scale(1.1); }
+  70% { transform: scale(1); }
+}
+
+/* 摇动动画 */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+/* 成功勾选动画 */
+@keyframes checkmark {
+  0% {
+    stroke-dashoffset: 100;
+    opacity: 0;
+  }
+  50% {
+    stroke-dashoffset: 50;
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+/* 圆环填充动画 */
+@keyframes circle-progress {
+  from {
+    stroke-dasharray: 0 100;
+  }
+  to {
+    stroke-dasharray: var(--progress, 75) 100;
+  }
+}
+
+/* 星星闪烁 */
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.8);
+  }
+}
+
+/* 呼吸灯效果 */
+@keyframes breathe {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(251, 146, 60, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(251, 146, 60, 0.6);
+  }
+}
+
+/* 波纹扩散 */
+@keyframes ripple {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+/* 滑入上 */
+@keyframes slideInUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* 滑入下 */
+@keyframes slideInDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* 震动 */
+@keyframes vibrate {
+  0%, 100% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+}
+
+/* 旋转缩放 */
+@keyframes rotate-scale {
+  from {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.2);
+  }
+  to {
+    transform: rotate(360deg) scale(1);
+  }
+}
+
+/* ═══════════════════════════════════════════
+   🎬 动画类 Utility
+   ═══════════════════════════════════════════ */
+
+/* 渐变背景 */
 .animate-gradient-shift {
   background-size: 400% 400%;
   animation: gradient-shift 15s ease infinite;
@@ -534,6 +817,7 @@ input[type="checkbox"]:hover {
   animation: gradient-shift-reverse 15s ease infinite;
 }
 
+/* 浮动 */
 .animate-float {
   animation: float 8s ease-in-out infinite;
 }
@@ -542,6 +826,7 @@ input[type="checkbox"]:hover {
   animation: float-delay 10s ease-in-out 2s infinite;
 }
 
+/* 脉冲 */
 .animate-pulse-soft {
   animation: pulse-soft 2s ease-in-out infinite;
 }
@@ -550,6 +835,7 @@ input[type="checkbox"]:hover {
   animation: pulse-glow 3s ease-in-out infinite;
 }
 
+/* 旋转 */
 .animate-spin-slow {
   animation: spin-slow 20s linear infinite;
 }
@@ -558,6 +844,7 @@ input[type="checkbox"]:hover {
   animation: spin-reverse 15s linear infinite;
 }
 
+/* 淡入 */
 .animate-fade-in-up {
   animation: fadeInUp 0.5s ease-out;
 }
@@ -566,10 +853,24 @@ input[type="checkbox"]:hover {
   animation: fadeInDown 0.5s ease-out;
 }
 
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* 缩放 */
 .animate-scale-in {
   animation: scaleIn 0.3s ease-out;
 }
 
+.animate-scale-bounce {
+  animation: scale-bounce 0.6s ease-out;
+}
+
+.animate-bounce-in {
+  animation: bounce-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* 滑入 */
 .animate-slide-in-left {
   animation: slideInLeft 0.5s ease-out;
 }
@@ -578,6 +879,15 @@ input[type="checkbox"]:hover {
   animation: slideInRight 0.5s ease-out;
 }
 
+.animate-slide-in-up {
+  animation: slideInUp 0.4s ease-out;
+}
+
+.animate-slide-in-down {
+  animation: slideInDown 0.4s ease-out;
+}
+
+/* 弹跳 */
 .animate-bounce-soft {
   animation: bounce-soft 1s ease-in-out infinite;
 }
@@ -586,6 +896,7 @@ input[type="checkbox"]:hover {
   animation: bounce-scale 1s ease-in-out infinite;
 }
 
+/* 闪烁 */
 .animate-shimmer {
   background: linear-gradient(
     90deg,
@@ -597,9 +908,193 @@ input[type="checkbox"]:hover {
   animation: shimmer 1.5s ease-in-out infinite;
 }
 
-/* ===========================================
-   📱 响应式设计
-   =========================================== */
+.animate-twinkle {
+  animation: twinkle 2s ease-in-out infinite;
+}
+
+/* ═══════════════════════════════════════════
+   ✨ 新增微交互动画类
+   ═══════════════════════════════════════════ */
+
+/* 心跳 */
+.animate-heartbeat {
+  animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+/* 摇动 */
+.animate-shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+/* 震动 */
+.animate-vibrate {
+  animation: vibrate 0.3s linear infinite;
+}
+
+/* 呼吸灯 */
+.animate-breathe {
+  animation: breathe 2s ease-in-out infinite;
+}
+
+/* 旋转缩放 */
+.animate-rotate-scale {
+  animation: rotate-scale 1s ease-in-out;
+}
+
+/* 交互反馈 */
+.hover-bounce:hover {
+  animation: bounce-scale 0.3s ease-out;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+.hover-glow:hover {
+  box-shadow: 
+    0 0 30px rgba(249, 115, 22, 0.5),
+    0 0 60px rgba(249, 115, 22, 0.3);
+}
+
+.active-press:active {
+  transform: scale(0.95);
+}
+
+/* 打字机效果 */
+.typewriter {
+  overflow: hidden;
+  white-space: nowrap;
+  animation: 
+    typing 3.5s steps(40, end),
+    blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent; }
+  50% { border-color: orange; }
+}
+
+/* ═══════════════════════════════════════════
+   📱 响应式设计 - 增强版
+   ═══════════════════════════════════════════ */
+
+/* ═══════════════════════════════════════════
+   👆 触摸交互优化
+   ═══════════════════════════════════════════ */
+
+/* 触摸友好的可点击区域 */
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* 防止移动端长按选中文本 */
+.no-select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* 触摸反馈 */
+.touch-feedback {
+  -webkit-tap-highlight-color: rgba(249, 115, 22, 0.3);
+}
+
+.touch-feedback:active {
+  background: rgba(249, 115, 22, 0.15);
+  transform: scale(0.95);
+}
+
+/* 按钮触摸效果 */
+.btn-touch {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.btn-touch:active {
+  transform: scale(0.95);
+  opacity: 0.9;
+}
+
+/* 卡片触摸效果 */
+.card-touch {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.card-touch:active {
+  transform: scale(0.98);
+}
+
+/* 列表项触摸效果 */
+.list-touch {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.list-touch:active {
+  background: rgba(249, 115, 22, 0.1);
+  transform: scale(0.98);
+}
+
+/* ═══════════════════════════════════════════
+   🔄 手势支持
+   ═══════════════════════════════════════════ */
+
+/* 滑动删除提示 */
+.swipe-delete {
+  transition: transform 0.3s ease;
+}
+
+.swipe-delete:active {
+  transform: scale(0.98);
+}
+
+/* 拖拽手柄 */
+.drag-handle {
+  cursor: grab;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.drag-handle:active {
+  cursor: grabbing;
+}
+
+/* 排序列表项 */
+.sortable-item {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sortable-item.dragging {
+  opacity: 0.8;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  transform: scale(1.02);
+}
+
+/* ═══════════════════════════════════════════
+   📱 移动端断点
+   ═══════════════════════════════════════════ */
+
+/* 平板设备 */
+@media (max-width: 1024px) {
+  .glass-card {
+    padding: 1.5rem;
+    border-radius: 1.5rem;
+  }
+}
+
+/* 移动设备 */
 @media (max-width: 768px) {
   .glass-card {
     padding: 1.25rem;
@@ -623,8 +1118,28 @@ input[type="checkbox"]:hover {
   .animate-float-delay {
     animation: float-delay 8s ease-in-out 1s infinite;
   }
+  
+  /* 移动端优化 */
+  .mobile-full-width {
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+  
+  .mobile-stack {
+    flex-direction: column !important;
+  }
+  
+  .mobile-hide {
+    display: none !important;
+  }
+  
+  .mobile-show {
+    display: block !important;
+  }
 }
 
+/* 小屏手机 */
 @media (max-width: 480px) {
   .glass-card {
     padding: 1rem;
@@ -635,71 +1150,352 @@ input[type="checkbox"]:hover {
     width: 4px;
     height: 4px;
   }
+  
+  .text-xs-mobile {
+    font-size: 0.75rem;
+  }
+  
+  .text-sm-mobile {
+    font-size: 0.875rem;
+  }
+  
+  /* 小屏优化 */
+  .small-mobile-full-width {
+    width: 100% !important;
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
 }
 
-/* ===========================================
-   🌙 深色模式增强
-   =========================================== */
+/* ═══════════════════════════════════════════
+   🖱️ 桌面端悬停效果
+   ═══════════════════════════════════════════ */
+
+@media (hover: hover) {
+  .hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 
+      0 25px 50px -12px rgba(251, 146, 60, 0.3),
+      0 0 0 1px rgba(249, 115, 22, 0.1);
+  }
+  
+  .hover-scale:hover {
+    transform: scale(1.05);
+  }
+  
+  .hover-glow:hover {
+    box-shadow: 
+      0 0 30px rgba(249, 115, 22, 0.5),
+      0 0 60px rgba(249, 115, 22, 0.3);
+  }
+  
+  .hover-shine:hover::before {
+    opacity: 1;
+    left: 100%;
+  }
+  
+  .hover-border:hover {
+    border-color: var(--color-primary);
+  }
+}
+
+/* ═══════════════════════════════════════════
+   ⌨️ 键盘导航优化
+   ═══════════════════════════════════════════ */
+
+/* 焦点状态 */
+.focus-visible:focus {
+  outline: none;
+  box-shadow: 
+    0 0 0 3px rgba(249, 115, 22, 0.4),
+    0 0 0 6px rgba(249, 115, 22, 0.15);
+}
+
+.focus-ring:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-primary);
+}
+
+/* 键盘导航的卡片 */
+.keyboard-nav {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.keyboard-nav:focus {
+  transform: scale(1.02);
+  box-shadow: 
+    0 0 0 3px rgba(249, 115, 22, 0.4),
+    0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* 跳过链接 - 用于屏幕阅读器 */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--color-primary);
+  color: white;
+  padding: 8px 16px;
+  z-index: 100;
+  transition: top 0.3s;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* ═══════════════════════════════════════════
+   🌗 模式切换动画
+   ═══════════════════════════════════════════ */
+
+/* 主题切换过渡 */
+.theme-transition {
+  transition: background-color 0.5s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* 太阳/月亮图标动画 */
+.sun-moon-toggle {
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.sun-moon-toggle.dark {
+  transform: rotate(180deg);
+}
+
+/* ═══════════════════════════════════════════
+   📐 安全区域适配
+   ═══════════════════════════════════════════ */
+
+/* iPhone X+ 安全区域 */
+.safe-area-top {
+  padding-top: env(safe-area-inset-top);
+}
+
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.safe-area-left {
+  padding-left: env(safe-area-inset-left);
+}
+
+.safe-area-right {
+  padding-right: env(safe-area-inset-right);
+}
+
+/* 底部安全区域 */
+.pb-safe {
+  padding-bottom: calc(env(safe-area-inset-bottom) + 1rem);
+}
+
+/* ═══════════════════════════════════════════
+   🖼️ 图像优化
+   ═══════════════════════════════════════════ */
+
+/* 响应式图像 */
+.img-responsive {
+  max-width: 100%;
+  height: auto;
+}
+
+/* 图像懒加载占位 */
+.img-loading {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.4) 25%,
+    rgba(255, 255, 255, 0.7) 50%,
+    rgba(255, 255, 255, 0.4) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+/* 圆角图像 */
+.img-rounded {
+  border-radius: 1rem;
+}
+
+/* 圆形图像 */
+.img-circle {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* ═══════════════════════════════════════════
+   🎭 骨架屏动画 - 增强
+   ═══════════════════════════════════════════ */
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.4) 25%,
+    rgba(255, 255, 255, 0.7) 50%,
+    rgba(255, 255, 255, 0.4) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: 0.5rem;
+}
+
+.dark .skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.1) 25%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0.1) 75%
+  );
+  background-size: 200% 100%;
+}
+
+/* 骨架屏变体 */
+.skeleton-text {
+  height: 1em;
+  margin-bottom: 0.5em;
+}
+
+.skeleton-title {
+  height: 1.5em;
+  width: 60%;
+  margin-bottom: 1em;
+}
+
+.skeleton-avatar {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+}
+
+.skeleton-button {
+  height: 2.5rem;
+  width: 6rem;
+  border-radius: 0.75rem;
+}
+
+.skeleton-card {
+  height: 8rem;
+  border-radius: 1.5rem;
+}
+
+/* ═══════════════════════════════════════════
+   🌙 Dark Mode 2.0 - 增强样式
+   ═══════════════════════════════════════════ */
 .dark body,
 body.dark {
   background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%);
+  background-size: 400% 400%;
   color: #e2e8f0;
 }
 
+/* 深色模式背景动画 */
+.dark body {
+  animation: darkGradientShift 20s ease infinite;
+}
+
+@keyframes darkGradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ═══════════════════════════════════════════
+   🥛 玻璃卡片 - Dark Mode 增强
+   ═══════════════════════════════════════════ */
 .dark .glass-card {
-  background: rgba(30, 30, 50, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
   box-shadow: 
-    0 25px 50px -12px rgba(0, 0, 0, 0.6),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    var(--glass-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 0 0 1px rgba(255, 255, 255, 0.05);
+  transition: all var(--transition-normal);
 }
 
 .dark .glass-card::before {
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 255, 255, 0.05),
+    rgba(255, 255, 255, 0.08),
     transparent
   );
 }
 
 .dark .glass-card:hover {
-  background: rgba(40, 40, 70, 0.9);
+  background: var(--glass-bg-secondary);
   box-shadow: 
     0 30px 60px -12px rgba(0, 0, 0, 0.7),
-    0 0 0 1px rgba(255, 255, 255, 0.1);
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 0 0 1px rgba(255, 255, 255, 0.08);
 }
 
+.dark .glass-card:active {
+  transform: scale(0.98);
+}
+
+/* ═══════════════════════════════════════════
+   📝 文字层级 - Dark Mode 增强
+   ═══════════════════════════════════════════ */
 .dark .glass-card h1,
 .dark .glass-card h2,
 .dark .glass-card h3,
-.dark .glass-card h4 {
-  color: #f8fafc;
+.dark .glass-card h4,
+.dark .glass-card h5,
+.dark .glass-card h6 {
+  color: var(--text-primary);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .dark .glass-card p,
-.dark .glass-card span:not(.text-orange-600):not(.text-green-600):not(.text-blue-600):not(.text-purple-600):not(.text-red-500):not(.text-yellow-500) {
-  color: #cbd5e1;
+.dark .glass-card span:not(
+  .text-orange-600):not(.text-green-600):not(.text-blue-600):not(
+  .text-purple-600):not(.text-red-500):not(.text-yellow-500):not(
+  .text-white):not([class*="text-"] .text-gray-500):not(
+  .text-theme-primary):not(.text-theme-secondary):not(.text-theme-muted) {
+  color: var(--text-secondary);
 }
 
-.dark input,
+/* ═══════════════════════════════════════════
+   🔘 输入框 - Dark Mode 增强
+   ═══════════════════════════════════════════ */
+.dark input[type="text"],
+.dark input[type="search"],
 .dark select,
 .dark textarea {
   background: rgba(255, 255, 255, 0.08);
   border-color: rgba(255, 255, 255, 0.15);
-  color: #f1f5f9;
+  color: var(--text-primary);
+  transition: all var(--transition-fast);
 }
 
-.dark input::placeholder,
+.dark input[type="text"]:focus,
+.dark input[type="search"]:focus,
+.dark select:focus,
+.dark textarea:focus {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: var(--color-primary);
+  color: var(--text-primary);
+  box-shadow: 
+    0 0 0 4px rgba(251, 146, 60, 0.2),
+    0 4px 20px rgba(251, 146, 60, 0.3);
+}
+
+.dark input[type="text"]::placeholder,
 .dark textarea::placeholder {
-  color: #64748b;
+  color: var(--text-muted);
 }
 
+/* ═══════════════════════════════════════════
+   🎨 背景透明度 - Dark Mode 增强
+   ═══════════════════════════════════════════ */
 .dark .bg-white\/30,
 .dark .bg-white\/40,
 .dark .bg-white\/50,
 .dark .bg-white\/60 {
   background-color: rgba(255, 255, 255, 0.1);
+  transition: background-color var(--transition-fast);
+}
+
+.dark .bg-white\/30:hover {
+  background-color: rgba(255, 255, 255, 0.15);
 }
 
 .dark .hover\:bg-white\/30:hover {
@@ -710,27 +1506,275 @@ body.dark {
   background-color: rgba(255, 255, 255, 0.2);
 }
 
+.dark .hover\:bg-white\/80:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+/* ═══════════════════════════════════════════
+   🎭 文字颜色 - Dark Mode 增强
+   ═══════════════════════════════════════════ */
 .dark .text-gray-500,
 .dark .text-gray-600,
 .dark .text-gray-700,
 .dark .text-gray-800 {
-  color: #94a3b8;
+  color: var(--text-muted);
+  transition: color var(--transition-fast);
 }
 
 .dark .text-orange-600 {
-  color: #fb923c;
+  color: var(--color-primary);
+  text-shadow: 0 0 20px var(--color-primary-glow);
 }
 
 .dark .text-red-500 {
-  color: #f87171;
+  color: var(--color-error);
+  text-shadow: 0 0 15px rgba(248, 113, 113, 0.4);
 }
 
 .dark .text-yellow-500 {
-  color: #fbbf24;
+  color: var(--color-warning);
+  text-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
 }
 
+.dark .text-green-500,
+.dark .text-green-600 {
+  color: var(--color-success);
+  text-shadow: 0 0 15px rgba(74, 222, 128, 0.4);
+}
+
+.dark .text-blue-500,
+.dark .text-blue-600 {
+  color: var(--color-info);
+  text-shadow: 0 0 15px rgba(96, 165, 250, 0.4);
+}
+
+.dark .text-purple-500,
+.dark .text-purple-600 {
+  color: var(--color-purple);
+  text-shadow: 0 0 15px rgba(167, 139, 250, 0.4);
+}
+
+/* ═══════════════════════════════════════════
+   📜 滚动条 - Dark Mode 增强
+   ═══════════════════════════════════════════ */
 .dark .custom-scrollbar::-webkit-scrollbar-thumb {
   background: linear-gradient(180deg, #475569, #334155);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #64748b, #475569);
+}
+
+/* ═══════════════════════════════════════════
+   🏆 徽章样式 - Dark Mode
+   ═══════════════════════════════════════════ */
+.dark .badge {
+  box-shadow: 0 2px 10px rgba(251, 146, 60, 0.4);
+}
+
+.dark .badge-ghost {
+  background: rgba(251, 146, 60, 0.15);
+  color: var(--color-primary);
+}
+
+/* ═══════════════════════════════════════════
+   📋 标签样式 - Dark Mode
+   ═══════════════════════════════════════════ */
+.dark .tag {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: var(--text-secondary);
+}
+
+.dark .tag:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--text-primary);
+}
+
+/* ═══════════════════════════════════════════
+   📄 列表项样式 - Dark Mode
+   ═══════════════════════════════════════════ */
+.dark .list-item {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark .list-item:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateX(4px);
+}
+
+/* ═══════════════════════════════════════════
+   📊 统计卡片 - Dark Mode
+   ═══════════════════════════════════════════ */
+.dark .stat-card {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+}
+
+.dark .stat-card:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.12) 0%,
+    rgba(255, 255, 255, 0.08) 100%
+  );
+}
+
+/* ═══════════════════════════════════════════
+   🎯 选中状态 - Dark Mode
+   ═══════════════════════════════════════════ */
+.dark .selected {
+  background: rgba(251, 146, 60, 0.2);
+  border-color: var(--color-primary);
+  box-shadow: 
+    0 0 0 2px var(--color-primary),
+    0 0 30px rgba(251, 146, 60, 0.3);
+}
+
+.dark .selected-ring {
+  box-shadow: 
+    0 0 0 3px rgba(251, 146, 60, 0.4),
+    0 0 0 6px rgba(251, 146, 60, 0.15);
+}
+
+/* ═══════════════════════════════════════════
+   📌 图标背景 - Dark Mode
+   ═══════════════════════════════════════════ */
+.dark .icon-bg {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* ═══════════════════════════════════════════
+   💬 对话框 - Dark Mode
+   ═══════════════════════════════════════════ */
+.dark .dialog-overlay {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.dark .dialog-content {
+  background: var(--glass-bg-secondary);
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* ═══════════════════════════════════════════
+   📱 底部导航 - Dark Mode
+   ═══════════════════════════════════════════ */
+.dark .bottom-nav {
+  background: rgba(30, 30, 50, 0.95);
+  border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark .bottom-nav-item.active::before {
+  background: var(--gradient-primary);
+  opacity: 0.2;
+}
+
+/* ═══════════════════════════════════════════
+   ⭐ 完成状态 - Dark Mode
+   ═══════════════════════════════════════════ */
+.dark .completed {
+  opacity: 0.5;
+  filter: grayscale(50%);
+}
+
+.dark .checkbox-completed {
+  background: linear-gradient(135deg, var(--color-success) 0%, #10b981 100%);
+  box-shadow: 0 0 20px rgba(74, 222, 128, 0.5);
+}
+
+/* ═══════════════════════════════════════════
+   🔘 按钮样式 - Dark Mode 增强
+   ═══════════════════════════════════════════ */
+.dark .btn-secondary {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(251, 146, 60, 0.4);
+  color: var(--color-primary);
+}
+
+.dark .btn-secondary:hover {
+  background: rgba(251, 146, 60, 0.15);
+  border-color: var(--color-primary);
+}
+
+.dark .jelly-button::after {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* ═══════════════════════════════════════════
+   🦴 骨架屏 - Dark Mode
+   ═══════════════════════════════════════════ */
+.dark .skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.1) 25%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0.1) 75%
+  );
+  background-size: 200% 100%;
+}
+
+/* ═══════════════════════════════════════════
+   🎀 装饰元素 - Dark Mode
+   ═══════════════════════════════════════════ */
+.dark .line-through::after {
+  background: linear-gradient(to right, transparent, #64748b 20%, #64748b 80%, transparent);
+}
+
+/* ═══════════════════════════════════════════
+   ✨ 发光效果 - Dark Mode 增强
+   ═══════════════════════════════════════════ */
+.dark .text-glow {
+  text-shadow: 
+    0 0 20px var(--color-primary-glow),
+    0 0 40px rgba(251, 146, 60, 0.3),
+    0 0 60px rgba(251, 146, 60, 0.1);
+}
+
+.dark .filter-drop-shadow-orange {
+  filter: drop-shadow(0 0 15px var(--color-primary-glow));
+}
+
+.dark .filter-drop-shadow-pink {
+  filter: drop-shadow(0 0 15px var(--color-pink-glow));
+}
+
+.dark .hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+/* ═══════════════════════════════════════════
+   🔄 过渡动画 - Dark Mode 平滑切换
+   ═══════════════════════════════════════════ */
+*,
+*::before,
+*::after {
+  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* 排除动画类不受过渡影响 */
+[class*="animate-"],
+[class^="animate-"],
+::before,
+::after {
+  transition: none;
+}
+
+.dark {
+  transition: background 0.5s ease, color 0.3s ease;
 }
 
 /* ===========================================

@@ -17,6 +17,12 @@
     <!-- Toast 通知组件 -->
     <ToastNotification ref="toastRef" />
 
+    <!-- 键盘快捷键帮助弹窗 -->
+    <KeyboardShortcutsHelp 
+      :is-open="shortcutsHelpVisible" 
+      @close="shortcutsHelpVisible = false"
+    />
+
     <div class="relative z-10">
       <!-- 🎯 顶部品牌栏 -->
       <nav class="glass-card m-4 p-4 flex items-center justify-between animate-fade-in-down">
@@ -27,14 +33,26 @@
           </span>
         </router-link>
         
-        <!-- 🌙 夜间模式切换 -->
-        <button
-          @click="toggleDarkMode"
-          class="group relative overflow-hidden jelly-button px-4 py-2 flex items-center gap-2"
-        >
-          <span class="text-lg transform group-hover:scale-125 transition-transform">{{ isDarkMode ? '☀️' : '🌙' }}</span>
-          <span class="font-medium">{{ isDarkMode ? '日间' : '夜间' }}</span>
-        </button>
+        <div class="flex items-center gap-2">
+          <!-- 快捷键提示按钮 -->
+          <button
+            @click="shortcutsHelpVisible = true"
+            class="group relative overflow-hidden jelly-button px-3 py-2 flex items-center gap-2"
+            title="键盘快捷键 (?)"
+          >
+            <span class="text-lg transform group-hover:scale-110 transition-transform">⌨️</span>
+            <span class="hidden sm:inline font-medium text-sm">快捷键</span>
+          </button>
+          
+          <!-- 🌙 夜间模式切换 -->
+          <button
+            @click="toggleDarkMode"
+            class="group relative overflow-hidden jelly-button px-4 py-2 flex items-center gap-2"
+          >
+            <span class="text-lg transform group-hover:scale-125 transition-transform">{{ isDarkMode ? '☀️' : '🌙' }}</span>
+            <span class="font-medium hidden sm:inline">{{ isDarkMode ? '日间' : '夜间' }}</span>
+          </button>
+        </div>
       </nav>
 
       <!-- 💰 积分显示 - 可点击跳转 -->
@@ -156,11 +174,12 @@
   </div>
 </template>
 
-<script setup>
-import { ref, provide, onMounted } from 'vue'
+<script setup lang="ts">
+import { ref, provide, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import ToastNotification from './ToastNotification.vue'
 import MoreMenu from './MoreMenu.vue'
+import KeyboardShortcutsHelp from './KeyboardShortcutsHelp.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -168,6 +187,7 @@ const isDarkMode = ref(false)
 const lovePoints = ref(0)
 const toastRef = ref(null)
 const moreMenuOpen = ref(false)
+const shortcutsHelpVisible = ref(false)
 
 // 5个核心Tab
 const navItems = [
@@ -221,10 +241,126 @@ const init = () => {
     
     // 监听Toast事件
     window.addEventListener('showToast', handleToastEvent)
+    
+    // 监听快捷键事件
+    window.addEventListener('shortcutAction', handleShortcutAction)
+    
+    // 监听自定义关闭模态框事件
+    window.addEventListener('closeModal', () => {
+      shortcutsHelpVisible.value = false
+      moreMenuOpen.value = false
+    })
   } catch (error) {
     console.error('Error initializing:', error)
   }
 }
+
+// 处理快捷键动作
+const handleShortcutAction = (event: any) => {
+  const { action } = event.detail
+  
+  switch (action) {
+    case 'newTask':
+      router.push('/tasks?action=new')
+      showToast('新建任务', '请添加新任务', 'info')
+      break
+    case 'toggleFocus':
+      // 专注模式的开始/暂停由Focus组件处理
+      showToast('专注模式', '请在专注页面操作', 'info')
+      break
+    case 'shortBreak':
+      showToast('休息5分钟', '站起来活动一下吧！', 'success')
+      break
+    case 'longBreak':
+      showToast('长休息', '休息15分钟吧！', 'success')
+      break
+    case 'undo':
+      // 撤销功能由各组件处理
+      showToast('撤销', '已撤销上一步操作', 'info')
+      break
+    case 'save':
+      showToast('保存', '数据已自动保存', 'success')
+      break
+  }
+}
+
+// 键盘快捷键监听
+const handleKeydown = (event: any) => {
+  // 如果在输入框中，不触发导航快捷键
+  const target = event.target as HTMLElement
+  const isInput = target.tagName === 'INPUT' || 
+                  target.tagName === 'TEXTAREA' || 
+                  target.isContentEditable
+  
+  // ESC 关闭帮助弹窗
+  if (event.key === 'Escape') {
+    shortcutsHelpVisible.value = false
+    moreMenuOpen.value = false
+    return
+  }
+  
+  // ? 键显示帮助 (不需要在输入框中)
+  if (event.key === '?' && event.shiftKey) {
+    event.preventDefault()
+    shortcutsHelpVisible.value = !shortcutsHelpVisible.value
+    return
+  }
+  
+  // Alt + D 切换深色模式
+  if (event.altKey && event.key === 'd') {
+    event.preventDefault()
+    toggleDarkMode()
+    return
+  }
+  
+  // 如果在输入框中，不处理导航快捷键
+  if (isInput) return
+  
+  // 导航快捷键
+  const keyActions: Record<string, string> = {
+    'h': '/',
+    't': '/tasks',
+    'f': '/focus',
+    'c': '/checkin',
+    's': '/stats',
+    'a': '/achievements',
+    'p': '/points',
+    'l': '/plan',
+    'j': '/journal',
+    'r': '/rewards',
+    'm': '/calendar',
+    'g': '/settings'
+  }
+  
+  if (keyActions[event.key]) {
+    router.push(keyActions[event.key])
+  }
+}
+
+// Toast 显示辅助函数
+const showToast = (title: string, message: string, type: string = 'info') => {
+  if (toastRef.value) {
+    toastRef.value.addToast({ title, message, type })
+  }
+}
+
+// 清理事件监听
+onUnmounted(() => {
+  window.removeEventListener('showToast', handleToastEvent)
+  window.removeEventListener('shortcutAction', handleShortcutAction)
+  window.removeEventListener('closeModal', () => {})
+})
+
+// 在 onMounted 中添加键盘监听
+onMounted(() => {
+  init()
+  document.addEventListener('keydown', handleKeydown)
+})
+
+// 在 onUnmounted 中移除键盘监听
+onUnmounted(() => {
+  document.removeEventListener('keydown', handleKeydown)
+})
 
 provide('updatePoints', updatePoints)
 provide('getPoints', () => lovePoints.value)
