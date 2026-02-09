@@ -1,5 +1,34 @@
 <template>
   <div class="max-w-7xl mx-auto">
+    <!-- 庆祝动画 -->
+    <ConfettiExplosion
+      :show="showConfetti"
+      :x="confettiX"
+      :y="confettiY"
+      type="success"
+      text="太棒了!"
+      :show-text="true"
+      @complete="showConfetti = false"
+    />
+    
+    <!-- 积分飘字动画 -->
+    <FloatingPoints
+      v-for="point in floatingPoints"
+      :key="point.id"
+      :points="point.value"
+      :from-x="point.x"
+      :from-y="point.y"
+      :to-x="point.toX"
+      :to-y="point.toY"
+      @complete="removeFloatingPoint(point.id)"
+    />
+    
+    <!-- 里程碑庆祝弹窗 -->
+    <CelebrationModal
+      :is-open="showMilestoneModal"
+      :milestone="milestoneData"
+      @close="showMilestoneModal = false"
+    />
     <div class="glass-card p-8">
       <!-- 标题栏 -->
       <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
@@ -169,8 +198,9 @@
                     type="checkbox"
                     :checked="task.completed"
                     :disabled="isBatchMode"
-                    @change="toggleTask(task)"
-                    class="w-6 h-6 text-orange-500 rounded-lg cursor-pointer disabled:opacity-50 appearance-none w-6 h-6 border-2 border-orange-300 rounded checked:bg-gradient-to-r checked:from-orange-400 checked:to-pink-500 checked:border-0 transition-all"
+                    @change="toggleTask(task, $event)"
+                    class="w-6 h-6 text-orange-500 rounded-lg cursor-pointer disabled:opacity-50 appearance-none w-6 h-6 border-2 border-orange-300 rounded checked:bg-gradient-to-r checked:from-orange-400 checked:to-pink-500 checked:border-0 transition-all cursor-pointer"
+                    :class="{ 'cursor-pointer': !isBatchMode }"
                   />
                   <span v-if="task.completed" class="absolute inset-0 flex items-center justify-center text-white text-xs">✓</span>
                 </div>
@@ -361,6 +391,76 @@ import SkeletonLoader from '../components/SkeletonLoader.vue'
 import ConfirmDialog from '../components/ConfirmDialog.vue'
 import UndoToast from '../components/UndoToast.vue'
 import BatchActionsBar from '../components/BatchActionsBar.vue'
+import ConfettiExplosion from '../components/ConfettiExplosion.vue'
+import FloatingPoints from '../components/FloatingPoints.vue'
+import CelebrationModal from '../components/CelebrationModal.vue'
+
+// 庆祝动画状态
+const showConfetti = ref(false)
+const confettiX = ref(50)
+const confettiY = ref(50)
+
+// 积分飘字动画
+const floatingPoints = ref([])
+let pointIdCounter = 0
+
+// 里程碑弹窗
+const showMilestoneModal = ref(false)
+const milestoneData = ref({})
+
+// 里程碑定义
+const milestones = [
+  { id: 'first_task', name: '初学者', icon: '🌟', condition: (count) => count >= 1 },
+  { id: 'task_10', name: '勤奋小蜜蜂', icon: '🐝', condition: (count) => count >= 10 },
+  { id: 'task_50', name: '学习达人', icon: '🎓', condition: (count) => count >= 50 },
+  { id: 'task_100', name: '任务大师', icon: '👑', condition: (count) => count >= 100 },
+  { id: 'task_500', name: '任务传奇', icon: '🏆', condition: (count) => count >= 500 },
+]
+
+// 添加积分飘字动画
+const addFloatingPoint = (x, y, value) => {
+  const id = ++pointIdCounter
+  floatingPoints.value.push({
+    id,
+    value,
+    x,
+    y,
+    toX: 90,
+    toY: 20
+  })
+}
+
+// 移除积分飘字
+const removeFloatingPoint = (id) => {
+  floatingPoints.value = floatingPoints.value.filter(p => p.id !== id)
+}
+
+// 检查里程碑
+const checkMilestone = (completedCount) => {
+  for (const milestone of milestones) {
+    if (milestone.condition(completedCount)) {
+      // 检查是否已解锁
+      const unlocked = JSON.parse(localStorage.getItem('milestones') || '[]')
+      if (!unlocked.includes(milestone.id)) {
+        // 显示里程碑弹窗
+        milestoneData.value = milestone
+        showMilestoneModal.value = true
+        
+        // 保存已解锁里程碑
+        unlocked.push(milestone.id)
+        localStorage.setItem('milestones', JSON.stringify(unlocked))
+        
+        // 触发庆祝
+        showConfetti.value = true
+        confettiX.value = 50
+        confettiY.value = 50
+        
+        return true
+      }
+    }
+  }
+  return false
+}
 
 const emit = defineEmits(['updatePoints'])
 
@@ -606,12 +706,29 @@ const clearDeletedTask = () => {
 }
 
 // ========== 切换任务状态 ==========
-const toggleTask = (task) => {
+const toggleTask = (task, event) => {
   if (task.completed) {
     const currentPoints = parseInt(localStorage.getItem('lovePoints') || '0')
     localStorage.setItem('lovePoints', (currentPoints + 10).toString())
     addPointsRecord(10, '完成任务', '✅')
     emit('updatePoints')
+    
+    // 获取点击位置用于动画
+    const rect = event.target.getBoundingClientRect()
+    const x = (rect.left + rect.width / 2) / window.innerWidth * 100
+    const y = (rect.top + rect.height / 2) / window.innerHeight * 100
+    
+    // 添加积分飘字动画
+    addFloatingPoint(x, y, 10)
+    
+    // 检查里程碑
+    const completedCount = tasks.value.filter(t => t.completed).length
+    checkMilestone(completedCount)
+    
+    // 如果是里程碑，触发庆祝动画
+    if (milestones.some(m => m.condition(completedCount) && !JSON.parse(localStorage.getItem('milestones') || '[]').includes(m.id))) {
+      showConfetti.value = true
+    }
   }
   saveToStorage()
 }
