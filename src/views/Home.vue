@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -151,6 +151,12 @@ const refreshData = () => {
 onMounted(() => {
   refreshData()
   window.addEventListener('storage', refreshData)
+  window.addEventListener('countdownSettingsChanged', refreshData)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('storage', refreshData)
+  window.removeEventListener('countdownSettingsChanged', refreshData)
 })
 </script>
 
@@ -303,18 +309,6 @@ onMounted(() => {
           </div>
         </div>
       </transition>
-    </div>
-
-    <!-- 悬浮快捷操作 -->
-    <div class="fab-container">
-      <div class="fab-wrapper">
-        <button class="fab main" @click="navigateTo('/tasks')">+</button>
-        <div class="fab-menu" v-if="false">
-          <button class="fab mini" @click="navigateTo('/tasks')">📝</button>
-          <button class="fab mini" @click="navigateTo('/focus')">⏱️</button>
-          <button class="fab mini" @click="navigateTo('/checkin')">✅</button>
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -699,58 +693,5 @@ onMounted(() => {
 .slide-leave-from {
   opacity: 1;
   max-height: 500px;
-}
-
-/* 悬浮按钮 */
-.fab-container {
-  position: fixed;
-  bottom: 100px;
-  right: 20px;
-  z-index: 100;
-}
-
-.fab-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 12px;
-}
-
-.fab {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.fab.main {
-  background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
-  color: white;
-  box-shadow: 0 4px 20px rgba(255, 107, 107, 0.4);
-}
-
-.fab.main:hover {
-  transform: scale(1.1);
-  box-shadow: 0 6px 30px rgba(255, 107, 107, 0.5);
-}
-
-.fab.mini {
-  width: 44px;
-  height: 44px;
-  font-size: 18px;
-  background: white;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-}
-
-.fab-menu {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
 }
 </style>

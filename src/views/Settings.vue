@@ -29,6 +29,7 @@
               @blur="saveCountdownSettings"
               class="setting-input"
               placeholder="输入目标名称"
+              @input="scheduleSaveCountdown"
             />
           </div>
 
@@ -377,6 +378,25 @@ const saveNotificationSettings = () => {
   localStorage.setItem('notificationSettings', JSON.stringify(notifications.value))
 }
 
+// 倒计时保存定时器
+let countdownSaveTimer = null
+
+// 延迟保存并显示提示
+const scheduleSaveCountdown = () => {
+  if (countdownSaveTimer) clearTimeout(countdownSaveTimer)
+  countdownSaveTimer = setTimeout(() => {
+    saveCountdownSettings()
+    showToast('设置已保存', '倒计时目标已更新', 'success')
+  }, 500)
+}
+
+// 保存倒计时设置
+const saveCountdownSettings = () => {
+  localStorage.setItem('countdownSettings', JSON.stringify(countdownSettings.value))
+  // 通知其他页面更新倒计时
+  window.dispatchEvent(new CustomEvent('countdownSettingsChanged'))
+}
+
 // 请求通知权限
 const enableNotifications = async () => {
   const granted = await requestPermission()
@@ -447,6 +467,7 @@ const initializeData = () => {
     })
 
     // 重置学习数据到默认值
+    localStorage.setItem('lovePoints', '0')  // 重置积分
     localStorage.setItem('weeklyChallenge', JSON.stringify({
       checkinStreak: 0,
       checkinGoal: 5,

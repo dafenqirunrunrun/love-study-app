@@ -154,6 +154,16 @@
           </div>
         </div>
 
+        <!-- 空状态 -->
+        <EmptyState
+          v-if="filteredAndSortedTasks.length === 0 && !isLoading"
+          icon="📝"
+          title="还没有任务"
+          description="添加第一个任务，开始你的学习之旅吧！"
+          action-text="添加任务"
+          @action="focusNewTask"
+        />
+
         <!-- 任务列表 -->
         <div class="space-y-3 max-h-[60vh] overflow-y-auto custom-scrollbar">
           <div
@@ -394,6 +404,7 @@ import BatchActionsBar from '../components/BatchActionsBar.vue'
 import ConfettiExplosion from '../components/ConfettiExplosion.vue'
 import FloatingPoints from '../components/FloatingPoints.vue'
 import CelebrationModal from '../components/CelebrationModal.vue'
+import EmptyState from '../components/EmptyState.vue'
 
 // 庆祝动画状态
 const showConfetti = ref(false)
@@ -618,6 +629,14 @@ const isOverdue = (dateStr) => {
   const today = new Date()
   today.setHours(0, 0, 0, 0)
   return date < today
+}
+
+// 聚焦到新建任务输入框
+const focusNewTask = () => {
+  const input = document.querySelector('input[placeholder="添加新任务..."]')
+  if (input) {
+    input.focus()
+  }
 }
 
 // 添加任务
