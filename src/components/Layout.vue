@@ -248,28 +248,42 @@ const handleToastEvent = (event) => {
   }
 }
 
+// 数据初始化事件处理
+const handleDataInitialized = () => {
+  // 重新从 localStorage 读取积分数据
+  const savedPoints = localStorage.getItem('lovePoints')
+  if (savedPoints) {
+    lovePoints.value = parseInt(savedPoints)
+  } else {
+    lovePoints.value = 0
+  }
+}
+
 const init = () => {
   try {
     const savedPoints = localStorage.getItem('lovePoints')
     if (savedPoints) lovePoints.value = parseInt(savedPoints)
-    
+
     const savedDarkMode = localStorage.getItem('darkMode')
     if (savedDarkMode === 'true') {
       isDarkMode.value = true
       document.documentElement.classList.add('dark')
     }
-    
+
     // 监听Toast事件
     window.addEventListener('showToast', handleToastEvent)
-    
+
     // 监听快捷键事件
     window.addEventListener('shortcutAction', handleShortcutAction)
-    
+
     // 监听自定义关闭模态框事件
     window.addEventListener('closeModal', () => {
       shortcutsHelpVisible.value = false
       moreMenuOpen.value = false
     })
+
+    // 监听数据初始化事件
+    window.addEventListener('dataInitialized', handleDataInitialized)
   } catch (error) {
     console.error('Error initializing:', error)
   }
@@ -377,6 +391,7 @@ onUnmounted(() => {
   window.removeEventListener('showToast', handleToastEvent)
   window.removeEventListener('shortcutAction', handleShortcutAction)
   window.removeEventListener('closeModal', () => {})
+  window.removeEventListener('dataInitialized', handleDataInitialized)
 })
 
 // 在 onMounted 中添加键盘监听

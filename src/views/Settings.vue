@@ -468,6 +468,14 @@ const initializeData = () => {
 
     // 重置学习数据到默认值
     localStorage.setItem('lovePoints', '0')  // 重置积分
+    localStorage.setItem('pointsHistory', '[]')  // 清空积分历史
+    localStorage.setItem('redeemHistory', '[]')  // 清空兑换历史
+    localStorage.setItem('petState', JSON.stringify({
+      name: '学习小助手',
+      avatar: '🐱',
+      mood: '开心',
+      hunger: 80
+    }))  // 重置宠物状态
     localStorage.setItem('weeklyChallenge', JSON.stringify({
       checkinStreak: 0,
       checkinGoal: 5,
@@ -479,8 +487,27 @@ const initializeData = () => {
       totalDays: 0
     }))
 
+    // 通知所有组件数据已重置
+    window.dispatchEvent(new CustomEvent('dataInitialized'))
+
+    // 使用多种方式确保刷新成功
+    // 1. 清除 Service Worker 缓存
+    if ('caches' in window) {
+      caches.keys().then(cacheNames => {
+        cacheNames.forEach(cacheName => caches.delete(cacheName))
+      })
+    }
+
+    // 2. 使用 history.replaceState 清理 URL 状态
+    history.replaceState(null, '', window.location.pathname)
+
+    // 3. 使用 setTimeout 确保 localStorage 写入完成后再刷新
+    setTimeout(() => {
+      // 强制刷新，跳过所有缓存
+      window.location.reload(true)
+    }, 100)
+
     alert('初始化完成！欢迎开始新的学习之旅～')
-    window.location.reload()
   }
 }
 </script>
