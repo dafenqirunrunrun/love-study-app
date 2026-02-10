@@ -1,8 +1,5 @@
 <template>
   <div class="max-w-7xl mx-auto">
-    <!-- 庆祝特效 -->
-    <ConfettiEffect ref="confettiRef" @complete="onConfettiComplete" />
-    
     <!-- 骨架屏加载状态 -->
     <template v-if="isLoading">
       <div class="glass-card p-8">
@@ -159,12 +156,23 @@
 
         <!-- 打卡日历 -->
         <div class="border-t border-white/20 pt-6">
-          <h3 class="text-lg font-bold text-gray-700 mb-4 flex items-center gap-2">
-            <span class="text-2xl">📜</span>
-            <span class="text-rainbow">打卡日历</span>
-          </h3>
-          
-          <!-- 月份选择 -->
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-bold text-gray-700 flex items-center gap-2">
+              <span class="text-2xl">📜</span>
+              <span class="text-rainbow">打卡日历</span>
+            </h3>
+            
+            <!-- 快速打卡按钮 -->
+            <button
+              @click="quickCheckinToday"
+              class="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl font-bold shadow-lg hover:shadow-xl transition-all hover:scale-105"
+              :class="{ 'opacity-50 cursor-not-allowed': isTodayCompleted }"
+              :disabled="isTodayCompleted"
+            >
+              <span class="text-lg">✅</span>
+              <span>{{ isTodayCompleted ? '今日已打卡' : '今日打卡' }}</span>
+            </button>
+          </div>
           <div class="flex items-center justify-between mb-4">
             <button @click="changeMonth(-1)" class="p-2 hover:bg-white/30 rounded-lg transition-all">
               <span class="text-xl">◀</span>
@@ -223,10 +231,27 @@
 
         <!-- 热力图 -->
         <div class="border-t border-white/20 pt-6 mt-6">
-          <h3 class="text-lg font-bold text-gray-700 mb-4 flex items-center gap-2">
-            <span class="text-2xl">🔥</span>
-            <span class="text-rainbow">打卡热力图</span>
-          </h3>
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-bold text-gray-700 flex items-center gap-2">
+              <span class="text-2xl">🔥</span>
+              <span class="text-rainbow">打卡热力图</span>
+            </h3>
+            
+            <!-- 热力图强度选择 -->
+            <div class="flex items-center gap-2">
+              <span class="text-xs text-gray-500">强度:</span>
+              <button
+                v-for="level in 5"
+                :key="level"
+                @click="heatmapIntensity = level - 1"
+                class="w-6 h-6 rounded transition-all"
+                :class="heatmapIntensity >= level - 1 
+                  ? 'bg-gradient-to-br from-green-400 to-emerald-500 shadow-lg' 
+                  : 'bg-white/30 hover:bg-white/50'"
+                :style="heatmapIntensity < level - 1 ? { background: 'transparent' } : {}"
+              ></button>
+            </div>
+          </div>
           
           <div class="checkin-heatmap">
             <!-- 月份标签 -->
@@ -254,7 +279,7 @@
                     v-for="(day, dIndex) in week" 
                     :key="dIndex"
                     class="heatmap-day"
-                    :class="'heatmap-level-' + day.level"
+                    :class="'heatmap-level-' + getAdjustedLevel(day.level)"
                     :title="day.date + ': ' + day.count + '个习惯'"
                   ></div>
                 </div>
@@ -342,7 +367,6 @@
 import { ref, computed, onMounted } from 'vue'
 import SkeletonLoader from '../components/SkeletonLoader.vue'
 import UndoToast from '../components/UndoToast.vue'
-import ConfettiEffect from '../components/ConfettiEffect.vue'
 import CircularProgress from '../components/CircularProgress.vue'
 
 // 辅助函数：调整颜色亮度
@@ -376,8 +400,8 @@ const weekDays = ref([
 
 const isLoading = ref(true)
 const isDarkMode = ref(false)
-const confettiRef = ref(null)
 const undoToastRef = ref(null)
+const heatmapIntensity = ref(4) // 默认使用最高的颜色强度
 
 // 添加习惯相关
 const showAddHabit = ref(false)
@@ -463,6 +487,14 @@ const goToToday = (dayIndex) => {
   currentYear.value = today.getFullYear()
 }
 
+// 根据用户选择的强度调整热力图等级
+const getAdjustedLevel = (baseLevel) => {
+  if (baseLevel === 0) return 0
+  // 将基础等级映射到用户选择的强度等级
+  const adjusted = Math.min(heatmapIntensity.value, baseLevel)
+  return Math.max(1, adjusted)
+}
+
 const consecutiveDays = computed(() => {
   let consecutive = 0
   const savedCheckins = JSON.parse(localStorage.getItem('checkinHistory') || '{}')
@@ -490,6 +522,54 @@ const weeklyProgress = computed(() => {
 const weeklyProgressPercentage = computed(() => {
   return Math.round((weeklyProgress.value / 7) * 100)
 })
+
+// 今日是否已完成打卡
+const isTodayCompleted = computed(() => {
+  const today = new Date().toDateString()
+  const savedCheckins = JSON.parse(localStorage.getItem('checkinHistory') || '{}')
+  return savedCheckins[today] && savedCheckins[today].total >= 2
+})
+
+// 快速打卡今日所有习惯
+const quickCheckinToday = () => {
+  if (isTodayCompleted.value) return
+  
+  const today = new Date().toDateString()
+  const savedCheckins = JSON.parse(localStorage.getItem('checkinHistory') || '{}')
+  
+  if (!savedCheckins[today]) {
+    savedCheckins[today] = []
+  }
+  
+  // 完成所有未完成习惯
+  habits.value.forEach(habit => {
+    if (!habit.todayCompleted) {
+      habit.todayCompleted = true
+      habit.streak++
+      if (habit.streak > habit.bestStreak) {
+        habit.bestStreak = habit.streak
+      }
+      if (!savedCheckins[today].includes(habit.id)) {
+        savedCheckins[today].push(habit.id)
+      }
+    }
+  })
+  
+  savedCheckins[today].total = savedCheckins[today].length
+  localStorage.setItem('habits', JSON.stringify(habits.value))
+  localStorage.setItem('checkinHistory', JSON.stringify(savedCheckins))
+  
+  // 更新积分
+  const currentPoints = parseInt(localStorage.getItem('lovePoints') || '0')
+  const newPoints = currentPoints + (habits.value.length * 5)
+  localStorage.setItem('lovePoints', newPoints.toString())
+  
+  addPointsRecord(habits.value.length * 5, `完成所有习惯打卡`, '🎯')
+  emit('updatePoints')
+  
+  // 刷新数据
+  loadData()
+}
 
 const calendarDays = computed(() => {
   const days = []
@@ -564,9 +644,6 @@ const toggleHabit = (habit) => {
     localStorage.setItem('lovePoints', (currentPoints + 5).toString())
     addPointsRecord(5, `完成习惯: ${habit.name}`, '🎯')
     emit('updatePoints')
-    
-    // 触发庆祝特效
-    confettiRef.value?.trigger()
   } else {
     undoneHabit.value = { ...habit }
     habit.streak = Math.max(0, habit.streak - 1)
@@ -628,10 +705,6 @@ const executeUndo = () => {
 // 清除撤销状态
 const clearUndoneHabit = () => {
   undoneHabit.value = null
-}
-
-const onConfettiComplete = () => {
-  // 庆祝完成后的回调
 }
 
 const saveToStorage = () => {
@@ -777,27 +850,43 @@ onMounted(() => {
 }
 
 .heatmap-level-0 {
-  background: #ebedf0;
+  background: #e8f5e9;
 }
 
 .heatmap-level-1 {
-  background: #9be9a8;
+  background: #a5d6a7;
 }
 
 .heatmap-level-2 {
-  background: #40c463;
+  background: #66bb6a;
 }
 
 .heatmap-level-3 {
-  background: #30a14e;
+  background: #43a047;
 }
 
 .heatmap-level-4 {
-  background: #216e39;
+  background: #2e7d32;
 }
 
 .dark .heatmap-level-0 {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.dark .heatmap-level-1 {
+  background: rgba(102, 187, 106, 0.3);
+}
+
+.dark .heatmap-level-2 {
+  background: rgba(102, 187, 106, 0.5);
+}
+
+.dark .heatmap-level-3 {
+  background: rgba(67, 160, 71, 0.7);
+}
+
+.dark .heatmap-level-4 {
+  background: rgba(46, 125, 50, 0.9);
 }
 
 .dark .heatmap-months span,
