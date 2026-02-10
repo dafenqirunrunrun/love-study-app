@@ -174,11 +174,11 @@
             </button>
           </div>
           <div class="flex items-center justify-between mb-4">
-            <button @click="changeMonth(-1)" class="p-2 hover:bg-white/30 rounded-lg transition-all">
+            <button @click="changeMonth(-1)" class="p-2 rounded-lg">
               <span class="text-xl">◀</span>
             </button>
             <span class="font-bold text-gray-700">{{ currentMonthName }}</span>
-            <button @click="changeMonth(1)" class="p-2 hover:bg-white/30 rounded-lg transition-all">
+            <button @click="changeMonth(1)" class="p-2 rounded-lg">
               <span class="text-xl">▶</span>
             </button>
           </div>
@@ -190,25 +190,21 @@
             </div>
           </div>
           
-          <!-- 日历网格 -->
-          <div class="grid grid-cols-7 gap-2">
+          <!-- 日历网格 - 简化DOM -->
+          <div class="grid grid-cols-7 gap-1">
             <div
               v-for="(day, index) in calendarDays"
               :key="index"
-              class="aspect-square rounded-xl flex items-center justify-center text-sm font-medium transition-all"
+              class="aspect-square rounded flex items-center justify-center text-sm font-medium"
               :class="day.completed 
-                ? 'bg-gradient-to-br from-green-400 to-emerald-500 text-white shadow-lg' 
+                ? 'bg-gradient-to-br from-green-400 to-emerald-500 text-white' 
                 : day.today
-                ? 'bg-gradient-to-br from-orange-400 to-pink-400 text-white shadow-lg'
+                ? 'bg-gradient-to-br from-orange-400 to-pink-400 text-white'
                 : day.isCurrentMonth
-                ? 'bg-white/40 text-gray-700 hover:bg-white/60'
+                ? 'bg-white/50 text-gray-700'
                 : 'bg-white/10 text-gray-400'"
             >
               {{ day.day }}
-              <div 
-                v-if="day.completed" 
-                class="absolute bottom-1 w-1 h-1 bg-white rounded-full"
-              ></div>
             </div>
           </div>
           
@@ -237,17 +233,17 @@
               <span class="text-rainbow">打卡热力图</span>
             </h3>
             
-            <!-- 热力图强度选择 -->
-            <div class="flex items-center gap-2">
+              <!-- 热力图强度选择 -->
+            <div class="flex items-center gap-1">
               <span class="text-xs text-gray-500">强度:</span>
               <button
                 v-for="level in 5"
                 :key="level"
                 @click="heatmapIntensity = level - 1"
-                class="w-6 h-6 rounded transition-all"
+                class="w-5 h-5 rounded transition-all"
                 :class="heatmapIntensity >= level - 1 
-                  ? 'bg-gradient-to-br from-green-400 to-emerald-500 shadow-lg' 
-                  : 'bg-white/30 hover:bg-white/50'"
+                  ? 'bg-gradient-to-br from-green-400 to-emerald-500' 
+                  : 'bg-white/30'"
                 :style="heatmapIntensity < level - 1 ? { background: 'transparent' } : {}"
               ></button>
             </div>
@@ -840,13 +836,14 @@ onMounted(() => {
   width: 12px;
   height: 12px;
   border-radius: 2px;
-  transition: transform 0.1s ease;
-  cursor: pointer;
 }
 
-.heatmap-day:hover {
-  transform: scale(1.3);
-  outline: 2px solid rgba(0, 0, 0, 0.2);
+/* 移动端禁用 hover 效果 */
+@media (max-width: 768px) {
+  .heatmap-day:hover {
+    transform: none;
+    outline: none;
+  }
 }
 
 .heatmap-level-0 {

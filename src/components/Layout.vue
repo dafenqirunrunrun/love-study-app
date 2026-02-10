@@ -78,7 +78,9 @@
       <main class="mx-4 pb-32 animate-fade-in-up" style="animation-delay: 0.2s;">
         <router-view v-slot="{ Component }">
           <Transition name="page" mode="out-in">
-            <component :is="Component" />
+            <keep-alive :include="cachedViews">
+              <component :is="Component" />
+            </keep-alive>
           </Transition>
         </router-view>
       </main>
@@ -203,6 +205,15 @@ const toastRef = ref(null)
 const moreMenuOpen = ref(false)
 const shortcutsHelpVisible = ref(false)
 const searchModalOpen = ref(false)
+
+// 需要缓存的组件列表（性能优化）
+const cachedViews = ref([
+  'Home',
+  'Tasks',
+  'Focus',
+  'Checkin',
+  'PointsCenter'
+])
 
 // 5个核心Tab
 const navItems = [
