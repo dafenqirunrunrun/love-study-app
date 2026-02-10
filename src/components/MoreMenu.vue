@@ -78,7 +78,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onMounted } from 'vue'
+import { ref, watch, onMounted, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
 
 interface MenuItem {
@@ -101,11 +101,36 @@ const emit = defineEmits(['close'])
 const isOpen = ref(props.isOpen)
 const route = useRoute()
 
-// 用户统计数据 (示例)
+// 用户统计数据 - 从 localStorage 读取真实数据
 const userStats = ref({
-  level: 12,
-  points: 2380
+  level: 1,
+  points: 0
 })
+
+// 根据积分计算等级
+const calculateLevel = (points) => {
+  const totalExp = points / 10
+  return Math.floor(Math.sqrt(totalExp / 10)) + 1
+}
+
+// 加载用户统计数据
+const loadUserStats = () => {
+  try {
+    const savedPoints = localStorage.getItem('lovePoints')
+    if (savedPoints) {
+      const points = parseInt(savedPoints)
+      userStats.value.points = points
+      userStats.value.level = calculateLevel(points)
+    }
+  } catch (error) {
+    console.error('Error loading user stats:', error)
+  }
+}
+
+// 数据初始化事件处理
+const handleDataInitialized = () => {
+  loadUserStats()
+}
 
 watch(() => props.isOpen, (newVal) => {
   isOpen.value = newVal
@@ -150,6 +175,18 @@ const close = () => {
   isOpen.value = false
   emit('close')
 }
+
+// 页面加载时读取用户数据
+onMounted(() => {
+  loadUserStats()
+  // 监听数据初始化事件
+  window.addEventListener('dataInitialized', handleDataInitialized)
+})
+
+// 清理事件监听
+onUnmounted(() => {
+  window.removeEventListener('dataInitialized', handleDataInitialized)
+})
 </script>
 
 <style scoped>
