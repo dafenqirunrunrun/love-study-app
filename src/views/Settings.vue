@@ -154,7 +154,7 @@
               </div>
             </div>
             <label class="toggle-switch">
-              <input type="checkbox" v-model="notifications.enabled" @change="saveNotificationSettings" />
+              <input type="checkbox" v-model="notifications.enabled" @change="toggleNotifications" />
               <span class="toggle-slider"></span>
             </label>
           </div>
@@ -290,10 +290,15 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
 import ExportImport from '../components/ExportImport.vue'
+import { useNotifications, requestPermission, sendNotification } from '../composables/useNotifications'
 
 const isDarkMode = ref(false)
 const shortcutsEnabled = ref(true)
 const showShortcutsHelp = ref(false)
+const notificationPermission = ref('default')
+
+// 使用通知 composable
+const { isSupported, isEnabled } = useNotifications()
 
 // 倒计时设置
 const countdownSettings = ref({
@@ -370,6 +375,33 @@ onMounted(() => {
 // 保存通知设置
 const saveNotificationSettings = () => {
   localStorage.setItem('notificationSettings', JSON.stringify(notifications.value))
+}
+
+// 请求通知权限
+const enableNotifications = async () => {
+  const granted = await requestPermission()
+  if (granted) {
+    notifications.value.enabled = true
+    saveNotificationSettings()
+    // 发送测试通知
+    sendNotification({
+      title: '🔔 通知已启用',
+      body: '您将收到任务提醒、专注完成通知等',
+      type: 'success'
+    })
+  } else {
+    notifications.value.enabled = false
+    saveNotificationSettings()
+  }
+}
+
+// 切换通知开关
+const toggleNotifications = () => {
+  if (notifications.value.enabled) {
+    enableNotifications()
+  } else {
+    saveNotificationSettings()
+  }
 }
 
 // 保存通用设置
