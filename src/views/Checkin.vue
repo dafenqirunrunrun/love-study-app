@@ -398,6 +398,7 @@ const isLoading = ref(true)
 const isDarkMode = ref(false)
 const undoToastRef = ref(null)
 const heatmapIntensity = ref(4) // 默认使用最高的颜色强度
+const checkinHistory = ref({}) // Reactive check-in history for computed properties
 
 // 添加习惯相关
 const showAddHabit = ref(false)
@@ -433,10 +434,11 @@ const heatmapMonths = computed(() => {
 
 // 热力图数据
 const heatmapData = computed(() => {
+  // Access checkinHistory.value to make this computed reactive
+  const history = checkinHistory.value
   const weeks = []
-  const checkinHistory = JSON.parse(localStorage.getItem('checkinHistory') || '{}')
   const today = new Date()
-  
+
   // 生成最近12周的数据
   for (let week = 11; week >= 0; week--) {
     const weekData = []
@@ -444,15 +446,15 @@ const heatmapData = computed(() => {
       const date = new Date(today)
       date.setDate(today.getDate() - (week * 7) + day - today.getDay() + 1)
       const dateStr = date.toDateString()
-      const checkins = checkinHistory[dateStr]?.total || 0
-      
+      const checkins = history[dateStr]?.total || 0
+
       // 计算热力等级 (0-4)
       let level = 0
       if (checkins === 1) level = 1
       else if (checkins === 2) level = 2
       else if (checkins === 3) level = 3
       else if (checkins >= 4) level = 4
-      
+
       weekData.push({
         date: `${date.getMonth() + 1}/${date.getDate()}`,
         count: checkins,
@@ -461,7 +463,7 @@ const heatmapData = computed(() => {
     }
     weeks.push(weekData)
   }
-  
+
   return weeks
 })
 
@@ -493,14 +495,14 @@ const getAdjustedLevel = (baseLevel) => {
 
 const consecutiveDays = computed(() => {
   let consecutive = 0
-  const savedCheckins = JSON.parse(localStorage.getItem('checkinHistory') || '{}')
-  
+  const history = checkinHistory.value
+
   for (let i = 0; i < 365; i++) {
     const date = new Date()
     date.setDate(date.getDate() - i)
     const dateStr = date.toDateString()
-    
-    if (savedCheckins[dateStr] && savedCheckins[dateStr].total >= 2) {
+
+    if (history[dateStr] && history[dateStr].total >= 2) {
       consecutive++
     } else if (i === 0) {
       continue
@@ -522,21 +524,16 @@ const weeklyProgressPercentage = computed(() => {
 // 今日是否已完成打卡
 const isTodayCompleted = computed(() => {
   const today = new Date().toDateString()
-  const savedCheckins = JSON.parse(localStorage.getItem('checkinHistory') || '{}')
-  return savedCheckins[today] && savedCheckins[today].total >= 2
+  const history = checkinHistory.value
+  return history[today] && history[today].total >= 2
 })
 
 // 快速打卡今日所有习惯
 const quickCheckinToday = () => {
   if (isTodayCompleted.value) return
-  
+
   const today = new Date().toDateString()
-  const savedCheckins = JSON.parse(localStorage.getItem('checkinHistory') || '{}')
-  
-  if (!savedCheckins[today]) {
-    savedCheckins[today] = []
-  }
-  
+
   // 完成所有未完成习惯
   habits.value.forEach(habit => {
     if (!habit.todayCompleted) {
@@ -545,47 +542,48 @@ const quickCheckinToday = () => {
       if (habit.streak > habit.bestStreak) {
         habit.bestStreak = habit.streak
       }
-      if (!savedCheckins[today].includes(habit.id)) {
-        savedCheckins[today].push(habit.id)
+      if (!checkinHistory.value[today]?.includes(habit.id)) {
+        if (!checkinHistory.value[today]) {
+          checkinHistory.value[today] = []
+        }
+        checkinHistory.value[today].push(habit.id)
       }
     }
   })
-  
-  savedCheckins[today].total = savedCheckins[today].length
+
+  checkinHistory.value[today].total = checkinHistory.value[today].length
   localStorage.setItem('habits', JSON.stringify(habits.value))
-  localStorage.setItem('checkinHistory', JSON.stringify(savedCheckins))
-  
+  localStorage.setItem('checkinHistory', JSON.stringify(checkinHistory.value))
+
   // 更新积分
   const currentPoints = parseInt(localStorage.getItem('lovePoints') || '0')
   const newPoints = currentPoints + (habits.value.length * 5)
   localStorage.setItem('lovePoints', newPoints.toString())
-  
+
   addPointsRecord(habits.value.length * 5, `完成所有习惯打卡`, '🎯')
   emit('updatePoints')
-  
-  // 刷新数据
-  loadData()
 }
 
 const calendarDays = computed(() => {
+  // Access checkinHistory.value to make this computed reactive
+  const history = checkinHistory.value
   const days = []
   const today = new Date()
   const firstDay = new Date(currentYear.value, currentMonth.value, 1)
   const lastDay = new Date(currentYear.value, currentMonth.value + 1, 0)
   const startDay = firstDay.getDay()
-  
+
   // 填充空白
   for (let i = 0; i < startDay; i++) {
     days.push({ day: '', isCurrentMonth: false, completed: false, today: false })
   }
-  
+
   // 填充日期
   for (let i = 1; i <= lastDay.getDate(); i++) {
     const date = new Date(currentYear.value, currentMonth.value, i)
     const dateStr = date.toDateString()
-    const savedCheckins = JSON.parse(localStorage.getItem('checkinHistory') || '{}')
-    const completed = savedCheckins[dateStr] && savedCheckins[dateStr].total >= 2
-    
+    const completed = history[dateStr] && history[dateStr].total >= 2
+
     days.push({
       day: i,
       isCurrentMonth: true,
@@ -593,7 +591,7 @@ const calendarDays = computed(() => {
       today: dateStr === today.toDateString()
     })
   }
-  
+
   return days
 })
 
@@ -705,26 +703,25 @@ const clearUndoneHabit = () => {
 
 const saveToStorage = () => {
   localStorage.setItem('habits', JSON.stringify(habits.value))
-  
+
   const today = new Date().toDateString()
-  const savedCheckins = JSON.parse(localStorage.getItem('checkinHistory') || '{}')
-  
-  if (!savedCheckins[today]) {
-    savedCheckins[today] = []
+
+  if (!checkinHistory.value[today]) {
+    checkinHistory.value[today] = []
   }
-  
+
   habits.value.forEach(habit => {
     if (habit.todayCompleted) {
-      if (!savedCheckins[today].includes(habit.id)) {
-        savedCheckins[today].push(habit.id)
+      if (!checkinHistory.value[today].includes(habit.id)) {
+        checkinHistory.value[today].push(habit.id)
       }
     } else {
-      savedCheckins[today] = savedCheckins[today].filter(id => id !== habit.id)
+      checkinHistory.value[today] = checkinHistory.value[today].filter(id => id !== habit.id)
     }
   })
-  
-  savedCheckins[today].total = savedCheckins[today].length
-  localStorage.setItem('checkinHistory', JSON.stringify(savedCheckins))
+
+  checkinHistory.value[today].total = checkinHistory.value[today].length
+  localStorage.setItem('checkinHistory', JSON.stringify(checkinHistory.value))
 }
 
 const loadData = () => {
@@ -733,26 +730,26 @@ const loadData = () => {
     if (savedHabits) {
       habits.value = JSON.parse(savedHabits)
     }
-    
+
     const savedCheckins = localStorage.getItem('checkinHistory')
     if (savedCheckins) {
-      const checkins = JSON.parse(savedCheckins)
+      checkinHistory.value = JSON.parse(savedCheckins) // Update reactive ref
       const today = new Date().toDateString()
-      const todayCheckins = checkins[today]
-      
+      const todayCheckins = checkinHistory.value[today]
+
       if (todayCheckins) {
         habits.value.forEach(habit => {
           habit.todayCompleted = todayCheckins.includes(habit.id)
         })
       }
-      
+
       // 更新本周进度
       const weekStart = getWeekStart(new Date())
       weekDays.value.forEach((day, index) => {
         const dayDate = new Date(weekStart)
         dayDate.setDate(dayDate.getDate() + index)
         const dayStr = dayDate.toDateString()
-        day.checked = checkins[dayStr] && checkins[dayStr].total >= 2
+        day.checked = checkinHistory.value[dayStr] && checkinHistory.value[dayStr].total >= 2
       })
     }
   } catch (error) {
