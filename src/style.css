@@ -1245,12 +1245,123 @@ input[type="checkbox"]:hover {
 }
 
 /* ═══════════════════════════════════════════
-   🌗 模式切换动画
-   ═══════════════════════════════════════════ */
+    🌗 模式切换动画 - 增强版
+    ═══════════════════════════════════════════ */
 
-/* 主题切换过渡 */
-.theme-transition {
-  transition: background-color 0.5s ease, color 0.3s ease, border-color 0.3s ease;
+/* 全局主题过渡 - 所有可过渡属性 */
+.theme-transition,
+.theme-transition-all,
+.theme-transition * {
+  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+/* 快速主题过渡 */
+.theme-transition-fast,
+.theme-transition-fast * {
+  transition-duration: 150ms;
+}
+
+/* 慢速主题过渡 */
+.theme-transition-slow,
+.theme-transition-slow * {
+  transition-duration: 500ms;
+}
+
+/* 排除动画类不受主题过渡影响 */
+.animate-,
+.animate- *,
+[class*="animate-"],
+[class*="animate-"] *,
+[class^="animate-"],
+[class^="animate-"] * {
+  transition: none !important;
+}
+
+/* 主题切换遮罩动画 */
+.theme-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--color-primary);
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.theme-overlay.active {
+  opacity: 0.1;
+}
+
+/* 太阳/月亮图标动画 */
+.sun-moon-toggle {
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.sun-moon-toggle.dark {
+  transform: rotate(180deg);
+}
+
+/* 渐变背景主题过渡 */
+.gradient-bg {
+  transition: background 0.5s ease, background-image 0.5s ease;
+}
+
+.dark .gradient-bg {
+  animation: darkGradientShift 20s ease infinite;
+}
+
+@keyframes darkGradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* 玻璃拟态主题过渡 */
+.glass-transition {
+  transition:
+    background-color 0.3s ease,
+    backdrop-filter 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+/* 文字颜色主题过渡 */
+.text-transition {
+  transition: color 0.3s ease;
+}
+
+/* 边框主题过渡 */
+.border-transition {
+  transition: border-color 0.3s ease, border-width 0.3s ease;
+}
+
+/* 阴影主题过渡 */
+.shadow-transition {
+  transition: box-shadow 0.3s ease;
+}
+
+/* SVG图标颜色过渡 */
+.icon-transition {
+  transition: fill 0.3s ease, stroke 0.3s ease;
+}
+
+/* 输入框主题过渡 */
+.input-transition {
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+/* 滚动条主题过渡 */
+.scrollbar-transition {
+  transition: background-color 0.3s ease;
 }
 
 /* 太阳/月亮图标动画 */

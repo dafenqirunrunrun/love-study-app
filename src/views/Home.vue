@@ -65,30 +65,37 @@ const learningStats = ref({
 
 // 今日任务
 const todayTasks = computed(() => {
-  const todayStr = new Date().toISOString().split('T')[0]
+  // 修复：使用本地时区格式，避免日期偏移
+  const now = new Date()
+  const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
   return tasks.value.filter(t => {
-    const taskDate = t.date || t.createdAt?.split('T')[0]
+    // 兼容 date 和 dueDate 两种字段名（AI计划使用dueDate）
+    const taskDate = t.date || t.dueDate || t.createdAt?.split('T')[0]
     return taskDate === todayStr && !t.completed
   }).slice(0, 8)
 })
 
 // 统计数据
 const todayFocusMinutes = computed(() => {
-  const todayStr = new Date().toISOString().split('T')[0]
+  const now = new Date()
+  const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
   return focusHistory.value
     .filter(f => f.date === todayStr && f.completed)
     .reduce((sum, f) => sum + (f.duration || 0), 0)
 })
 
 const todayCheckins = computed(() => {
-  const todayStr = new Date().toISOString().split('T')[0]
+  const now = new Date()
+  const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
   return checkinHistory.value.filter(c => c.date === todayStr).length
 })
 
 const completedTasksCount = computed(() => {
-  const todayStr = new Date().toISOString().split('T')[0]
+  const now = new Date()
+  const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
   return tasks.value.filter(t => {
-    const taskDate = t.date || t.createdAt?.split('T')[0]
+    // 兼容 date 和 dueDate 两种字段名
+    const taskDate = t.date || t.dueDate || t.createdAt?.split('T')[0]
     return taskDate === todayStr && t.completed
   }).length
 })

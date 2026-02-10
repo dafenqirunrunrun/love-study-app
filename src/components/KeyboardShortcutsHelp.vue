@@ -89,9 +89,9 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
-import { DEFAULT_SHORTCUTS, getShortcutsForHelp, setHelpToggleCallback } from '../composables/useKeyboardShortcuts'
+import { DEFAULT_SHORTCUTS } from '../composables/useKeyboardShortcuts'
 
-// 导入缩放动画
+// Import scale animation
 const scaleIn = 'scaleIn'
 
 // Props
@@ -108,56 +108,52 @@ const emit = defineEmits<{
   (e: 'close'): void
 }>()
 
-// 快捷键分类
+// Shortcut categories
 const navigationShortcuts = computed(() => {
-  return DEFAULT_SHORTCUTS.filter(s => 
-    ['h', 't', 'f', 'c', 's', 'a', 'p', 'l', 'j', 'r', 'm', 'g'].includes(s.key) &&
-    !s.ctrl && !s.alt && !s.shift && !s.meta
-  )
+  return DEFAULT_SHORTCUTS.filter(function(s) { 
+    return ['h', 't', 'f', 'c', 's'].indexOf(s.key) !== -1 && !s.ctrl && !s.alt && !s.shift && !s.meta
+  })
 })
 
 const functionShortcuts = computed(() => {
-  return DEFAULT_SHORTCUTS.filter(s => 
-    ['n', 'd', '/', 'z', 's'].includes(s.key) ||
-    (s.ctrl && s.key === 'z') ||
-    (s.ctrl && s.key === 's')
-  )
+  return DEFAULT_SHORTCUTS.filter(function(s) { 
+    return ['n', '/', 'Escape'].indexOf(s.key) !== -1
+  })
 })
 
 const focusShortcuts = computed(() => {
-  return DEFAULT_SHORTCUTS.filter(s => 
-    [' ', 'ArrowLeft', 'ArrowRight'].includes(s.key)
-  )
+  return DEFAULT_SHORTCUTS.filter(function(s) { 
+    return ['ArrowLeft', 'ArrowRight'].indexOf(s.key) !== -1
+  })
 })
 
-// 关闭
-const close = () => {
+// Close
+var close = function() {
   emit('close')
 }
 
-// ESC 关闭
-const handleKeydown = (event: KeyboardEvent) => {
+// ESC close
+var handleKeydown = function(event) {
   if (event.key === 'Escape' && props.isOpen) {
     close()
   }
 }
 
-onMounted(() => {
+onMounted(function() {
   document.addEventListener('keydown', handleKeydown)
-  setHelpToggleCallback(() => emit('close'))
 })
 
-onUnmounted(() => {
+onUnmounted(function() {
   document.removeEventListener('keydown', handleKeydown)
 })
 </script>
 
 <script lang="ts">
-// 子组件定义
+// Child component definition
 import { defineComponent, h, type PropType } from 'vue'
 
-// 快捷键项组件
-const ShortcutItem = defineComponent({
+// Shortcut item component
+var ShortcutItem = defineComponent({
   name: 'ShortcutItem',
   props: {
     shortcut: {
@@ -165,11 +161,11 @@ const ShortcutItem = defineComponent({
       required: true
     }
   },
-  render(props: { shortcut: typeof DEFAULT_SHORTCUTS[0] }) {
-    const { shortcut } = props
+  render: function(props) {
+    var shortcut = props.shortcut
     
-    // 生成快捷键显示
-    const parts: string[] = []
+    // Generate shortcut display
+    var parts = []
     if (shortcut.ctrl || shortcut.meta) parts.push('Ctrl')
     if (shortcut.alt) parts.push('Alt')
     if (shortcut.shift) parts.push('Shift')
@@ -177,7 +173,7 @@ const ShortcutItem = defineComponent({
       parts.push(shortcut.key.toUpperCase())
     }
     
-    const shortcutText = parts.length > 0 ? parts.join(' + ') : shortcut.key.toUpperCase()
+    var shortcutText = parts.length > 0 ? parts.join(' + ') : shortcut.key.toUpperCase()
     
     return h('div', {
       class: 'flex items-center justify-between p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-all duration-200 group'

@@ -133,6 +133,16 @@
       <!-- 🎮 桌面端底部导航栏 - 简化版5Tab -->
       <div class="hidden md:flex fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 animate-fade-in-up" style="animation-delay: 0.3s;">
         <nav class="glass-card px-2 py-2 flex items-center gap-1 shadow-2xl">
+          <!-- 搜索按钮 -->
+          <button
+            @click="openSearch"
+            class="relative flex items-center gap-2 px-4 py-2 rounded-xl transition-all duration-300 hover:bg-white/30"
+            title="搜索 (Ctrl+K)"
+          >
+            <span class="text-lg">🔍</span>
+            <span class="font-medium text-sm text-gray-600">搜索</span>
+          </button>
+          
           <template v-for="(item, index) in navItems" :key="item.path">
             <router-link
               v-if="!item.isMore"
@@ -171,6 +181,9 @@
         </nav>
       </div>
     </div>
+    
+    <!-- 🔍 全局搜索弹窗 -->
+    <SearchModal v-model="searchModalOpen" />
   </div>
 </template>
 
@@ -180,6 +193,7 @@ import { useRoute, useRouter } from 'vue-router'
 import ToastNotification from './ToastNotification.vue'
 import MoreMenu from './MoreMenu.vue'
 import KeyboardShortcutsHelp from './KeyboardShortcutsHelp.vue'
+import SearchModal from './SearchModal.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -188,6 +202,7 @@ const lovePoints = ref(0)
 const toastRef = ref(null)
 const moreMenuOpen = ref(false)
 const shortcutsHelpVisible = ref(false)
+const searchModalOpen = ref(false)
 
 // 5个核心Tab
 const navItems = [
@@ -209,6 +224,11 @@ const toggleDarkMode = () => {
   isDarkMode.value = !isDarkMode.value
   document.documentElement.classList.toggle('dark', isDarkMode.value)
   localStorage.setItem('darkMode', isDarkMode.value.toString())
+}
+
+// 打开搜索弹窗
+const openSearch = () => {
+  searchModalOpen.value = true
 }
 
 const updatePoints = () => {
@@ -286,16 +306,24 @@ const handleShortcutAction = (event: any) => {
 
 // 键盘快捷键监听
 const handleKeydown = (event: any) => {
+  // Ctrl+K 或 Cmd+K 打开搜索
+  if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
+    event.preventDefault()
+    openSearch()
+    return
+  }
+  
   // 如果在输入框中，不触发导航快捷键
   const target = event.target as HTMLElement
   const isInput = target.tagName === 'INPUT' || 
                   target.tagName === 'TEXTAREA' || 
                   target.isContentEditable
   
-  // ESC 关闭帮助弹窗
+  // ESC 关闭帮助弹窗和搜索
   if (event.key === 'Escape') {
     shortcutsHelpVisible.value = false
     moreMenuOpen.value = false
+    searchModalOpen.value = false
     return
   }
   

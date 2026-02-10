@@ -147,6 +147,20 @@
           
           <div class="setting-item">
             <div class="setting-info">
+              <span class="setting-icon">📬</span>
+              <div class="setting-text">
+                <span class="setting-name">启用通知</span>
+                <span class="setting-desc">接收任务到期、专注完成等通知</span>
+              </div>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" v-model="notifications.enabled" @change="saveNotificationSettings" />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          
+          <div class="setting-item">
+            <div class="setting-info">
               <span class="setting-icon">📅</span>
               <div class="setting-text">
                 <span class="setting-name">任务提醒</span>
@@ -154,7 +168,7 @@
               </div>
             </div>
             <label class="toggle-switch">
-              <input type="checkbox" v-model="notifications.taskReminder" />
+              <input type="checkbox" v-model="notifications.taskReminder" @change="saveNotificationSettings" />
               <span class="toggle-slider"></span>
             </label>
           </div>
@@ -164,70 +178,76 @@
               <span class="setting-icon">⏰</span>
               <div class="setting-text">
                 <span class="setting-name">专注提醒</span>
-                <span class="setting-desc">开始专注的提醒</span>
+                <span class="setting-desc">专注完成时的通知</span>
               </div>
             </div>
             <label class="toggle-switch">
-              <input type="checkbox" v-model="notifications.focusReminder" />
+              <input type="checkbox" v-model="notifications.focusReminder" @change="saveNotificationSettings" />
               <span class="toggle-slider"></span>
             </label>
           </div>
           
           <div class="setting-item">
             <div class="setting-info">
-              <span class="setting-icon">🎉</span>
+              <span class="setting-icon">🏆</span>
               <div class="setting-text">
-                <span class="setting-name">成就解锁</span>
+                <span class="setting-name">成就通知</span>
                 <span class="setting-desc">解锁成就时的通知</span>
               </div>
             </div>
             <label class="toggle-switch">
-              <input type="checkbox" v-model="notifications.achievement" />
+              <input type="checkbox" v-model="notifications.achievement" @change="saveNotificationSettings" />
               <span class="toggle-slider"></span>
             </label>
           </div>
         </div>
 
-        <!-- 数据管理 -->
+        <!-- 键盘快捷键设置 -->
         <div class="settings-section">
-          <h2 class="section-title">💾 数据管理</h2>
-
-          <div class="setting-item init-item">
-            <div class="setting-info">
-              <span class="setting-icon">🚀</span>
-              <div class="setting-text">
-                <span class="setting-name">初始化数据</span>
-                <span class="setting-desc">新用户开始使用，重置所有数据</span>
-              </div>
-            </div>
-            <button class="setting-btn init" @click="initializeData">
-              初始化
-            </button>
-          </div>
-
-          <div class="setting-item">
-            <div class="setting-info">
-              <span class="setting-icon">📤</span>
-              <div class="setting-text">
-                <span class="setting-name">导出数据</span>
-                <span class="setting-desc">导出所有数据到JSON文件</span>
-              </div>
-            </div>
-            <button class="setting-btn" @click="exportData">
-              导出
-            </button>
-          </div>
+          <h2 class="section-title">⌨️ 键盘快捷键</h2>
           
           <div class="setting-item">
             <div class="setting-info">
-              <span class="setting-icon">📥</span>
+              <span class="setting-icon">⌨️</span>
               <div class="setting-text">
-                <span class="setting-name">导入数据</span>
-                <span class="setting-desc">从JSON文件导入数据</span>
+                <span class="setting-name">启用快捷键</span>
+                <span class="setting-desc">使用键盘快速操作（Ctrl+K 搜索等）</span>
               </div>
             </div>
-            <button class="setting-btn" @click="importData">
-              导入
+            <label class="toggle-switch">
+              <input type="checkbox" v-model="shortcutsEnabled" @change="saveSettings" />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          
+          <button 
+            class="setting-btn" 
+            @click="showShortcutsHelp = true"
+          >
+            📖 查看快捷键列表
+          </button>
+        </div>
+
+        <!-- 数据备份 -->
+        <ExportImport />
+
+        <!-- 初始化功能 -->
+        <div class="settings-section">
+          <h2 class="section-title">🔧 数据管理</h2>
+          
+          <div class="setting-item init-item">
+            <div class="setting-info">
+              <span class="setting-icon">🔄</span>
+              <div class="setting-text">
+                <span class="setting-name">初始化数据</span>
+                <span class="setting-desc">保留基本设置，清除所有学习数据</span>
+              </div>
+            </div>
+            <button 
+              class="setting-btn init" 
+              @click="initializeData"
+            >
+              🔄 初始化
             </button>
           </div>
           
@@ -236,11 +256,14 @@
               <span class="setting-icon">🗑️</span>
               <div class="setting-text">
                 <span class="setting-name">清除所有数据</span>
-                <span class="setting-desc">删除所有本地存储的数据</span>
+                <span class="setting-desc">不可恢复！将删除所有数据</span>
               </div>
             </div>
-            <button class="setting-btn danger" @click="clearAllData">
-              清除
+            <button 
+              class="setting-btn danger" 
+              @click="clearAllData"
+            >
+              🗑️ 清除
             </button>
           </div>
         </div>
@@ -266,8 +289,11 @@
 
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
+import ExportImport from '../components/ExportImport.vue'
 
 const isDarkMode = ref(false)
+const shortcutsEnabled = ref(true)
+const showShortcutsHelp = ref(false)
 
 // 倒计时设置
 const countdownSettings = ref({
@@ -285,6 +311,7 @@ const focusSettings = ref({
 
 // 通知设置
 const notifications = ref({
+  enabled: true,
   taskReminder: true,
   focusReminder: true,
   achievement: true
@@ -332,73 +359,27 @@ onMounted(() => {
       console.error('Failed to parse notification settings:', e)
     }
   }
+  
+  // 加载快捷键设置
+  const savedShortcuts = localStorage.getItem('keyboardShortcutsEnabled')
+  if (savedShortcuts) {
+    shortcutsEnabled.value = savedShortcuts === 'true'
+  }
 })
 
-// 保存倒计时设置
-const saveCountdownSettings = () => {
-  localStorage.setItem('countdownSettings', JSON.stringify(countdownSettings.value))
+// 保存通知设置
+const saveNotificationSettings = () => {
+  localStorage.setItem('notificationSettings', JSON.stringify(notifications.value))
+}
+
+// 保存通用设置
+const saveSettings = () => {
+  localStorage.setItem('keyboardShortcutsEnabled', shortcutsEnabled.value.toString())
 }
 
 const toggleDarkMode = () => {
   document.documentElement.classList.toggle('dark', isDarkMode.value)
   localStorage.setItem('darkMode', isDarkMode.value.toString())
-}
-
-const exportData = () => {
-  const data = {
-    tasks: localStorage.getItem('tasks'),
-    focusHistory: localStorage.getItem('focusHistory'),
-    checkinHistory: localStorage.getItem('checkinHistory'),
-    lovePoints: localStorage.getItem('lovePoints'),
-    pointsHistory: localStorage.getItem('pointsHistory'),
-    redeemHistory: localStorage.getItem('redeemHistory'),
-    habits: localStorage.getItem('habits'),
-    dailyJournal: localStorage.getItem('dailyJournal'),
-    journalMood: localStorage.getItem('journalMood'),
-    journalHistory: localStorage.getItem('journalHistory'),
-    learningPlans: localStorage.getItem('learningPlans'),
-    unlockedBadges: localStorage.getItem('unlockedBadges'),
-    focusSettings: localStorage.getItem('focusSettings'),
-    countdownSettings: localStorage.getItem('countdownSettings'),
-    weeklyChallenge: localStorage.getItem('weeklyChallenge'),
-    learningStats: localStorage.getItem('learningStats')
-  }
-  
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
-  const url = URL.createObjectURL(blob)
-  const a = document.createElement('a')
-  a.href = url
-    a.download = `学习伴侣备份_${new Date().toISOString().split('T')[0]}.json`
-  a.click()
-  URL.revokeObjectURL(url)
-}
-
-const importData = () => {
-  const input = document.createElement('input')
-  input.type = 'file'
-  input.accept = '.json'
-  input.onchange = (e: any) => {
-    const file = e.target.files[0]
-    if (file) {
-      const reader = new FileReader()
-      reader.onload = (e) => {
-        try {
-          const data = JSON.parse(e.target?.result as string)
-          Object.keys(data).forEach(key => {
-            if (data[key]) {
-              localStorage.setItem(key, data[key])
-            }
-          })
-          alert('数据导入成功！')
-          window.location.reload()
-        } catch (err) {
-          alert('导入失败，请检查文件格式')
-        }
-      }
-      reader.readAsText(file)
-    }
-  }
-  input.click()
 }
 
 const clearAllData = () => {
@@ -478,7 +459,7 @@ const initializeData = () => {
 .section-title {
   font-size: 16px;
   font-weight: 600;
-  color: #374151;
+  color: #1f2937;
   margin-bottom: 16px;
 }
 
